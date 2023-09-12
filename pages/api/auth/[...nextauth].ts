@@ -1,10 +1,10 @@
 import { prisma } from '@/db/prisma';
 import { env } from '@/env.mjs';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import NextAuth from 'next-auth';
+import NextAuth, { AuthOptions } from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 
-export const authOptions = {
+export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
   providers: [
     GithubProvider({
@@ -12,6 +12,13 @@ export const authOptions = {
       clientSecret: env.GITHUB_SECRET,
     }),
   ],
+  callbacks: {
+    session({ session, user }) {
+      session.user.id = user.id;
+      session.user.image = user.image;
+      return session;
+    },
+  },
 };
 
 export default NextAuth(authOptions);
