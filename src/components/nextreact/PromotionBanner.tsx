@@ -4,7 +4,7 @@ import { Typography } from '../ui/Typography';
 
 export const PromotionBanner = () => {
   if (env.NODE_ENV !== 'production') {
-    // return null;
+    return null;
   }
 
   return (
