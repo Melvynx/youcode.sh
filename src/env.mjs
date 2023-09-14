@@ -7,6 +7,8 @@ export const env = createEnv({
     GITHUB_ID: z.string().min(1),
     GITHUB_SECRET: z.string().min(1),
     NODE_ENV: z.union([z.literal('development'), z.literal('production')]),
+    NEXTAUTH_URL: z.string().url(),
+    NEXTAUTH_SECRET: z.string().min(1),
   },
   client: {
     // Nothing here yet
