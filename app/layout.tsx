@@ -7,6 +7,7 @@ import { Inter } from 'next/font/google';
 import { PropsWithChildren } from 'react';
 import { Providers } from './Providers';
 import './globals.css';
+import { PromotionBanner } from '@/components/nextreact/PromotionBanner';
 
 const fontSans = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -28,6 +29,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
         >
           <Providers>
             <div className="relative flex min-h-screen flex-col">
+              <PromotionBanner />
               <Header />
               <div className="flex-1">{children}</div>
             </div>

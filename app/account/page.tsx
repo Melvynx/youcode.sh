@@ -39,6 +39,16 @@ export default async function page() {
         >
           Create courses
         </Link>
+        <Link
+          href="/account/edit"
+          className={buttonVariants({
+            size: 'lg',
+            className: 'w-full',
+            variant: 'ghost',
+          })}
+        >
+          Edit profile
+        </Link>
       </CardContent>
       <CardFooter className="justify-end flex">
         <LogoutButton />
