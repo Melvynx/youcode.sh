@@ -46,8 +46,11 @@ model User {
   image         String?
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-  accounts      Account[]
-  sessions      Session[]
+
+  accounts       Account[]
+  sessions       Session[]
+  ownedCourses   UserCourse[]
+  createdCourses Course[]
 }
 
 model VerificationToken {
@@ -57,4 +60,39 @@ model VerificationToken {
 
   @@unique([identifier, token])
   @@map("verificationtokens")
+}
+
+model Course {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  image       String
+  price       Int // in cents
+  createdAt   DateTime @default(now())
+  creatorId   String
+
+  creator User         @relation(fields: [creatorId], references: [id])
+  lessons Lesson[]
+  users   UserCourse[]
+}
+
+model Lesson {
+  id          String   @id @default(cuid())
+  name        String
+  rank        String // A string that represents the order of the lesson
+  description String
+  video       String
+  createdAt   DateTime @default(now())
+  course      Course   @relation(fields: [courseId], references: [id])
+  courseId    String
+}
+
+model UserCourse {
+  id        String   @id @default(cuid())
+  userId    String
+  courseId  String
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  course Course @relation(fields: [courseId], references: [id])
 }

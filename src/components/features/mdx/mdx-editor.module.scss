@@ -1,0 +1,16 @@
+.toolbar {
+  & > div {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.editor {
+  &:focus {
+    outline: none;
+  }
+
+  & [role='textbox'] {
+    outline: none;
+  }
+}

@@ -8,14 +8,14 @@ import {
   DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Loader } from '@/components/ui/loading';
 import { useMutation } from '@tanstack/react-query';
-import { LogOut } from 'lucide-react';
+import { LogOut, User2 } from 'lucide-react';
 import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
+import Link from 'next/link';
 
 export const LoggedInButton = ({ user }: { user: Session['user'] }) => {
   const logout = useMutation(() => signOut());
@@ -24,17 +24,23 @@ export const LoggedInButton = ({ user }: { user: Session['user'] }) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="outline" size="sm">
-          <Avatar className="h-7 w-7">
+          <Avatar className="h-6 w-6 mr-2">
             <AvatarFallback>
               {user.email ? user.email.slice(0, 2) : '??'}
             </AvatarFallback>
             {user.image && <AvatarImage src={user.image} />}
           </Avatar>
+          {user.name}
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent className="w-56">
-        <DropdownMenuLabel>My Account</DropdownMenuLabel>
-        <DropdownMenuSeparator />
+        <DropdownMenuLabel>Accounts</DropdownMenuLabel>
+        <DropdownMenuItem asChild>
+          <Link href="/account">
+            <User2 className="mr-2 h-4 w-4" />
+            My Account
+          </Link>
+        </DropdownMenuItem>
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={() => logout.mutate()}>
             {logout.isLoading ? (

@@ -1,4 +1,5 @@
 import { SiteConfig } from '@/config';
+import Image from 'next/image';
 import Link from 'next/link';
 import { ThemeToggle } from '../ThemeToggle';
 import { AuthButton } from '../features/auth/AuthButton';
@@ -8,7 +9,8 @@ export function Header() {
   return (
     <header className="bg-background sticky top-0 z-40 w-full border-b">
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
-        <div className="flex gap-6 md:gap-10">
+        <div className="flex items-center gap-2">
+          <Image src="/images/you-code.svg" width={50} height={35} alt="app logo" />
           <Typography variant="h3" as={Link} href="/">
             {SiteConfig.title}
           </Typography>
