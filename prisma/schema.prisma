@@ -52,6 +52,7 @@ model User {
   sessions       Session[]
   ownedCourses   UserCourse[]
   createdCourses Course[]
+  lessons        LessonOnUser[]
 }
 
 model VerificationToken {
@@ -64,13 +65,13 @@ model VerificationToken {
 }
 
 model Course {
-  id          String   @id @default(cuid())
-  name        String
-  description String
-  image       String
-  price       Int // in cents
-  createdAt   DateTime @default(now())
-  creatorId   String
+  id           String   @id @default(cuid())
+  name         String
+  presentation String // markdown
+  image        String
+  price        Int // in cents
+  createdAt    DateTime @default(now())
+  creatorId    String
 
   creator User         @relation(fields: [creatorId], references: [id])
   lessons Lesson[]
@@ -78,14 +79,31 @@ model Course {
 }
 
 model Lesson {
-  id          String   @id @default(cuid())
-  name        String
-  rank        String // A string that represents the order of the lesson
-  description String
-  video       String
-  createdAt   DateTime @default(now())
-  course      Course   @relation(fields: [courseId], references: [id])
-  courseId    String
+  id        String         @id @default(cuid())
+  name      String
+  rank      String // A string that represents the order of the lesson
+  content   String // markdown
+  createdAt DateTime       @default(now())
+  course    Course         @relation(fields: [courseId], references: [id])
+  courseId  String
+  users     LessonOnUser[]
+}
+
+model LessonOnUser {
+  id        String   @id @default(cuid())
+  userId    String
+  lessonId  String
+  progress  Progress @default(NOT_STARTED)
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  lesson Lesson @relation(fields: [lessonId], references: [id])
+}
+
+enum Progress {
+  NOT_STARTED
+  IN_PROGRESS
+  COMPLETED
 }
 
 model UserCourse {
