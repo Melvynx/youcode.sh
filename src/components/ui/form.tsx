@@ -28,6 +28,7 @@ const Form = <T extends FieldValues>({
   onSubmit,
   children,
   className,
+
   ...props
 }: FormProps<T>) => (
   <FormProvider {...form}>
@@ -199,6 +200,7 @@ const useZodForm = <Z extends ZodSchema>({
 }: UseZodFormProps<Z>) =>
   useForm({
     ...formProps,
+    // @ts-ignore
     resolver: zodResolver(schema),
   });
 

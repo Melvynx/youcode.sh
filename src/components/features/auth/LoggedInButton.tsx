@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Loader } from '@/components/ui/loading';
 import { useMutation } from '@tanstack/react-query';
-import { LogOut, ShieldCheck, User2 } from 'lucide-react';
+import { GraduationCap, LogOut, ShieldCheck, User2 } from 'lucide-react';
 import { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
@@ -45,6 +45,12 @@ export const LoggedInButton = ({ user }: { user: Session['user'] }) => {
           <Link href="/admin">
             <ShieldCheck className="mr-2 h-4 w-4" />
             Admin
+          </Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem asChild>
+          <Link href="/courses">
+            <GraduationCap className="mr-2 h-4 w-4" />
+            Courses
           </Link>
         </DropdownMenuItem>
         <DropdownMenuGroup>

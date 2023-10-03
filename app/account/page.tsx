@@ -28,13 +28,13 @@ export default async function page() {
           <CardDescription>{session.user.name}</CardDescription>
         </div>
       </CardHeader>
-      <CardContent>
+      <CardContent className="flex flex-col gap-2">
         <Link
           href="/admin"
           className={buttonVariants({
             size: 'lg',
             className: 'w-full',
-            variant: 'ghost',
+            variant: 'outline',
           })}
         >
           Create courses
@@ -44,7 +44,7 @@ export default async function page() {
           className={buttonVariants({
             size: 'lg',
             className: 'w-full',
-            variant: 'ghost',
+            variant: 'outline',
           })}
         >
           Edit profile

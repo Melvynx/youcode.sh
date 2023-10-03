@@ -27,7 +27,7 @@ export default async function Page({
 
   return (
     <div className="max-w-5xl flex flex-col lg:flex-row lg:items-start gap-4 p-4 xl:p-0 xl:gap-6 m-auto mt-4">
-      <Card className="max-w-xs w-full">
+      <Card className="lg:max-w-xs w-full">
         <CardHeader>
           <CardTitle>Settings</CardTitle>
         </CardHeader>

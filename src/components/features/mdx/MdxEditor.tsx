@@ -114,7 +114,10 @@ const Editor: FC<
 > = ({ markdown, editorRef, onChange, className }) => {
   return (
     <MDXEditor
-      className={cn('prose dark:prose-invert', className)}
+      className={cn(
+        'prose dark:prose-invert border-dashed border-2 border-muted',
+        className
+      )}
       ref={editorRef}
       markdown={markdown}
       onChange={onChange}
