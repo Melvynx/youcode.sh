@@ -8,7 +8,6 @@ import {
   ChangeCodeMirrorLanguage,
   ConditionalContents,
   CreateLink,
-  GenericJsxEditor,
   InsertCodeBlock,
   InsertSandpack,
   JsxComponentDescriptor,
@@ -32,6 +31,7 @@ import {
 } from '@mdxeditor/editor';
 import '@mdxeditor/editor/style.css';
 import { FC } from 'react';
+import { MuxVideoEditor } from './video-editor/VideoEditor';
 
 interface EditorProps {
   markdown: string;
@@ -77,41 +77,27 @@ const simpleSandpackConfig: SandpackConfig = {
 
 const jsxComponentDescriptors: JsxComponentDescriptor[] = [
   {
-    name: 'MyLeaf',
-    kind: 'flow', // 'text' for inline, 'flow' for block
-    // the source field is used to construct the import statement at the top of the markdown document.
-    // it won't be actually sourced.
-    // source: './components/Leaf.tsx',
-    // Used to construct the property popover of the generic editor
-    props: [{ name: 'title', type: 'string' }],
-    // wether the component has children or not
-    hasChildren: true,
-    Editor: GenericJsxEditor,
-  },
-  {
-    name: 'BlockNode',
+    name: 'MuxVideo',
     kind: 'flow',
-    source: './external',
-    props: [],
-    hasChildren: true,
-    Editor: GenericJsxEditor,
+    props: [{ name: 'id', type: 'string' }],
+    hasChildren: false,
+    Editor: MuxVideoEditor,
   },
 ];
 
-// a toolbar button that will insert a JSX element into the editor.
-const InsertMyLeaf = () => {
+const InsertVideo = () => {
   const insertJsx = jsxPluginHooks.usePublisher('insertJsx');
   return (
     <Button
       onClick={() =>
         insertJsx({
-          name: 'MyLeaf',
-          kind: 'text',
-          props: { title: 'Demo title' },
+          name: 'MuxVideo',
+          kind: 'flow',
+          props: { url: '' },
         })
       }
     >
-      Leaf
+      Video
     </Button>
   );
 };
@@ -120,22 +106,25 @@ const InsertMyLeaf = () => {
  * Extend this Component further with the necessary plugins or props you need.
  * proxying the ref is necessary. Next.js dynamically imported components don't support refs.
  */
-const Editor: FC<EditorProps> = ({ markdown, editorRef }) => {
+const Editor: FC<
+  EditorProps & {
+    onChange: (markdown: string) => void;
+    className?: string;
+  }
+> = ({ markdown, editorRef, onChange, className }) => {
   return (
     <MDXEditor
-      className={cn('prose dark:prose-invert')}
+      className={cn('prose dark:prose-invert', className)}
       ref={editorRef}
       markdown={markdown}
-      onChange={console.log}
+      onChange={onChange}
       plugins={[
         headingsPlugin(),
         linkDialogPlugin(),
         linkPlugin(),
         quotePlugin(),
         jsxPlugin({ jsxComponentDescriptors }),
-
         markdownShortcutPlugin(),
-
         listsPlugin(),
         codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
         sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
@@ -152,7 +141,7 @@ const Editor: FC<EditorProps> = ({ markdown, editorRef }) => {
               <InsertCodeBlock />
               <InsertSandpack />
               <Separator orientation="vertical" className="h-6" />
-              <InsertMyLeaf />
+              <InsertVideo />
 
               <ConditionalContents
                 options={[

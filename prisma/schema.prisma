@@ -50,9 +50,10 @@ model User {
 
   accounts       Account[]
   sessions       Session[]
-  ownedCourses   UserCourse[]
+  ownedCourses   CourseOnUser[]
   createdCourses Course[]
   lessons        LessonOnUser[]
+  videos         Video[]
 }
 
 model VerificationToken {
@@ -73,20 +74,28 @@ model Course {
   createdAt    DateTime @default(now())
   creatorId    String
 
-  creator User         @relation(fields: [creatorId], references: [id])
+  creator User           @relation(fields: [creatorId], references: [id])
   lessons Lesson[]
-  users   UserCourse[]
+  users   CourseOnUser[]
 }
 
 model Lesson {
-  id        String         @id @default(cuid())
-  name      String
-  rank      String // A string that represents the order of the lesson
-  content   String // markdown
+  id      String      @id @default(cuid())
+  name    String
+  rank    String // A string that represents the order of the lesson
+  content String // markdown
+  state   LessonState @default(HIDDEN)
+
   createdAt DateTime       @default(now())
   course    Course         @relation(fields: [courseId], references: [id])
   courseId  String
   users     LessonOnUser[]
+}
+
+enum LessonState {
+  HIDDEN
+  PUBLISHED
+  PUBLIC
 }
 
 model LessonOnUser {
@@ -106,12 +115,22 @@ enum Progress {
   COMPLETED
 }
 
-model UserCourse {
-  id        String   @id @default(cuid())
-  userId    String
-  courseId  String
-  createdAt DateTime @default(now())
+model CourseOnUser {
+  id         String    @id @default(cuid())
+  userId     String
+  courseId   String
+  createdAt  DateTime  @default(now())
+  canceledAt DateTime?
 
   user   User   @relation(fields: [userId], references: [id])
   course Course @relation(fields: [courseId], references: [id])
+}
+
+model Video {
+  id      String @id @default(cuid())
+  userId  String
+  assetId String
+  title   String
+
+  user User @relation(fields: [userId], references: [id])
 }

@@ -1,0 +1,50 @@
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Loader } from '@/components/ui/loading';
+import { prisma } from '@/db/prisma';
+import { Suspense } from 'react';
+import { LessonEditorAutoSave } from './LessonEditorAutoSave';
+import { LessonForm } from './LessonForm';
+
+export default async function Page({
+  params,
+}: {
+  params: {
+    courseId: string;
+    lessonId: string;
+  };
+}) {
+  const lesson = await prisma.lesson.findFirstOrThrow({
+    where: {
+      id: params.lessonId,
+    },
+    select: {
+      id: true,
+      name: true,
+      state: true,
+      content: true,
+    },
+  });
+
+  return (
+    <div className="max-w-5xl flex flex-col lg:flex-row lg:items-start gap-4 p-4 xl:p-0 xl:gap-6 m-auto mt-4">
+      <Card className="max-w-xs w-full">
+        <CardHeader>
+          <CardTitle>Settings</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <LessonForm {...lesson} />
+        </CardContent>
+      </Card>
+      <Card className="w-full">
+        <CardHeader>
+          <CardTitle>Content</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Suspense fallback={<Loader />}>
+            <LessonEditorAutoSave markdown={lesson.content} lessonId={lesson.id} />
+          </Suspense>
+        </CardContent>
+      </Card>
+    </div>
+  );
+}
