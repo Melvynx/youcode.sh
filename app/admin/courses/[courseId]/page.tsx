@@ -86,7 +86,7 @@ export default async function page({
             </Link>
 
             <Link
-              href={`/admin/courses/${course.id}/details`}
+              href={`/admin/courses/${course.id}/edit`}
               className={cn(buttonVariants({ variant: 'outline' }), 'w-full')}
             >
               Edit details

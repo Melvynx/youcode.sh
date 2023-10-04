@@ -102,7 +102,6 @@ export const MuxVideoEditor = ({ mdastNode, descriptor }: JsxEditorProps) => {
         </CardHeader>
         <CardContent>
           <MuxPlayer
-            style={{ marginTop: -84 }}
             src={`https://stream.mux.com/${assetId}.m3u8`}
             title={String(title)}
           />

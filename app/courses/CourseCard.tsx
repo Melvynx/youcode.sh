@@ -7,7 +7,7 @@ export const CourseCard = ({ course }: { course: CourseCardType[number] }) => {
     <Link href={`/courses/${course.id}`}>
       <Card className="hover:bg-muted transition-colors">
         <CardHeader className="flex-row gap-4">
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2 flex-1">
             <CardTitle>{course.name}</CardTitle>
             <CardDescription>{course.presentation}</CardDescription>
           </div>

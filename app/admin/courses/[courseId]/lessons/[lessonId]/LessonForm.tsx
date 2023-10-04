@@ -22,19 +22,14 @@ import {
 import { LessonState } from '@prisma/client';
 import { useParams } from 'next/navigation';
 import { toast } from 'sonner';
-import { z } from 'zod';
+import { LessonFormSchema } from './lesson-form.schema';
 import { editLesson } from './lesson.action';
-
-const FormSchema = z.object({
-  name: z.string(),
-  state: z.nativeEnum(LessonState),
-});
 
 export const LessonForm = (props: { name: string; state: LessonState }) => {
   const params = useParams();
   const lessonId = String(params?.lessonId);
   const form = useZodForm({
-    schema: FormSchema,
+    schema: LessonFormSchema,
     defaultValues: props,
   });
 

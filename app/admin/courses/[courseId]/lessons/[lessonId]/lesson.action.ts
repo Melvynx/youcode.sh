@@ -2,7 +2,7 @@
 
 import { getAuthSession } from '@/auth/next-auth';
 import { prisma } from '@/db/prisma';
-import { LessonState } from '@prisma/client';
+import { LessonFormSchema } from './lesson-form.schema';
 
 export const editLessonContent = async (lessonId: string, markdown: string) => {
   const session = await getAuthSession();
@@ -26,13 +26,9 @@ export const editLessonContent = async (lessonId: string, markdown: string) => {
   return 'ok';
 };
 
-export const editLesson = async (
-  lessonId: string,
-  data: {
-    state: LessonState;
-    name: string;
-  }
-) => {
+export const editLesson = async (lessonId: string, unsafeData: LessonFormSchema) => {
+  const data = LessonFormSchema.parse(unsafeData);
+
   const session = await getAuthSession();
 
   if (!session?.user.id) {
@@ -46,10 +42,7 @@ export const editLesson = async (
         creatorId: session.user.id,
       },
     },
-    data: {
-      state: data.state,
-      name: data.name,
-    },
+    data: data,
   });
 
   return 'ok';
