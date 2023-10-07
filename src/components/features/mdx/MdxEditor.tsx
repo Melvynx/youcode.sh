@@ -117,7 +117,7 @@ const Editor: FC<
   return (
     <MDXEditor
       className={cn(
-        'prose dark:prose-invert border-dashed border-2 border-muted max-w-none',
+        'prose dark:prose-invert border-dashed border-2 border-muted max-w-none ',
         className
       )}
       ref={editorRef}

@@ -1,13 +1,13 @@
 import { TailwindIndicator } from '@/components/TailwindIndicator';
 import { Header } from '@/components/layout/Header';
 import { cn } from '@/components/lib/utils';
+import { PromotionBanner } from '@/components/nextreact/PromotionBanner';
 import { SiteConfig } from '@/config';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { PropsWithChildren } from 'react';
 import { Providers } from './Providers';
 import './globals.css';
-import { PromotionBanner } from '@/components/nextreact/PromotionBanner';
 
 const fontSans = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -28,7 +28,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           )}
         >
           <Providers>
-            <div className="relative flex min-h-screen flex-col">
+            <div className="relative flex min-h-screen bg-primary/50 flex-col">
               <PromotionBanner />
               <Header />
               <div className="flex-1">{children}</div>
