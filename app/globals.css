@@ -72,6 +72,8 @@
   }
   body {
     @apply bg-background text-foreground;
+
+    --header-height: 64px;
   }
 }
 

@@ -7,7 +7,12 @@ import { Typography } from '../ui/Typography';
 
 export function Header() {
   return (
-    <header className="bg-background sticky top-0 z-40 w-full border-b">
+    <header
+      className="bg-background sticky top-0 w-full border-b"
+      style={{
+        zIndex: 99999,
+      }}
+    >
       <div className="container flex h-16 items-center space-x-4 sm:justify-between sm:space-x-0">
         <div className="flex items-center gap-2">
           <Image src="/images/you-code.svg" width={50} height={35} alt="app logo" />

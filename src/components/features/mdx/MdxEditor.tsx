@@ -8,6 +8,7 @@ import {
   ChangeCodeMirrorLanguage,
   ConditionalContents,
   CreateLink,
+  DiffSourceToggleWrapper,
   InsertCodeBlock,
   InsertSandpack,
   JsxComponentDescriptor,
@@ -18,6 +19,7 @@ import {
   UndoRedo,
   codeBlockPlugin,
   codeMirrorPlugin,
+  diffSourcePlugin,
   headingsPlugin,
   jsxPlugin,
   jsxPluginHooks,
@@ -115,12 +117,13 @@ const Editor: FC<
   return (
     <MDXEditor
       className={cn(
-        'prose dark:prose-invert border-dashed border-2 border-muted',
+        'prose dark:prose-invert border-dashed border-2 border-muted max-w-none',
         className
       )}
       ref={editorRef}
       markdown={markdown}
       onChange={onChange}
+      // readOnly={true}
       plugins={[
         headingsPlugin(),
         linkDialogPlugin(),
@@ -132,6 +135,7 @@ const Editor: FC<
         codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
         sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
         codeMirrorPlugin({ codeBlockLanguages: { js: 'JavaScript', css: 'CSS' } }),
+        diffSourcePlugin(),
         toolbarPlugin({
           toolbarContents: () => (
             <div className={cn('flex items-center gap-2')}>
@@ -163,6 +167,9 @@ const Editor: FC<
                   { fallback: () => <></> },
                 ]}
               />
+              <DiffSourceToggleWrapper>
+                <button>Test</button>
+              </DiffSourceToggleWrapper>
             </div>
           ),
         }),
