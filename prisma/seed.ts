@@ -52,7 +52,7 @@ const main = async () => {
     const random3Users = faker.helpers.arrayElements(users, 3);
 
     for (const user of random3Users) {
-      await prisma.userCourse.create({
+      await prisma.courseOnUser.create({
         data: {
           userId: user.id,
           courseId: course.id,
