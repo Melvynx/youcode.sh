@@ -10,8 +10,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Loader } from '@/components/ui/loading';
+import { useMutation } from '@tanstack/react-query';
 import { ColumnDef } from '@tanstack/react-table';
-import { Menu } from 'lucide-react';
+import { Menu, Settings } from 'lucide-react';
+import { useParams } from 'next/navigation';
+import { toast } from 'sonner';
+import { updateUserOnCourseStatus } from './user.action';
 
 // This type is used to define the shape of our data.
 // You can use a Zod schema here if you want.
@@ -40,28 +45,60 @@ export const columns: ColumnDef<User>[] = [
       </div>
     ),
   },
-
   {
     accessorKey: 'status',
     header: 'Status',
-    cell: ({ row }) => <Badge>{row.getValue('status')}</Badge>,
+    cell: ({ row }) => {
+      const status = row.getValue('status');
+      return (
+        <Badge variant={status === 'active' ? 'default' : 'secondary'}>
+          {row.getValue('status')}
+        </Badge>
+      );
+    },
   },
-
   {
     header: 'Actions',
-    cell: ({ row }) => (
-      <div>
-        <DropdownMenu>
-          <DropdownMenuTrigger>
-            <Button size="sm" variant="secondary">
-              <Menu size={12} />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent>
-            <DropdownMenuItem>Refund</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </div>
-    ),
+    cell: function Cell({ row }) {
+      const params = useParams();
+
+      const courseId = String(params?.courseId);
+      const userId = row.original.id;
+
+      const mutation = useMutation(async () => {
+        await updateUserOnCourseStatus({
+          courseId,
+          userId,
+          cancel: row.getValue('status') === 'active',
+        });
+
+        toast.success('User status updated');
+      });
+
+      return (
+        <div>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button size="sm" variant="outline">
+                <Menu size={12} />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem
+                className="gap-2"
+                onClick={(e) => {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  mutation.mutate();
+                }}
+              >
+                {mutation.isLoading ? <Loader size={12} /> : <Settings size={12} />}
+                {row.getValue('status') === 'active' ? 'Cancel' : 'Activate'}
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
+      );
+    },
   },
 ];

@@ -74,11 +74,12 @@ export const MuxVideoEditor = ({ mdastNode, descriptor }: JsxEditorProps) => {
     mutationFn: async ({ title, uploadId }: { title: string; uploadId: string }) => {
       const assetId = await saveVideoToDb({ title, uploadId });
       updateMdastNode({
+        type: 'mdxJsxFlowElement',
         attributes: [
           {
             type: 'mdxJsxAttribute',
             name: 'id',
-            value: assetId,
+            value: assetId.data,
           },
           {
             type: 'mdxJsxAttribute',

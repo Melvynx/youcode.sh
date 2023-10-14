@@ -2,13 +2,7 @@ import { prisma } from '@/db/prisma';
 import { User, columns } from './users/columns';
 import { DataTable } from './users/data-table';
 
-export const CourseUsers = async ({
-  page,
-  courseId,
-}: {
-  page: string;
-  courseId: string;
-}) => {
+export const CourseUsers = async ({ courseId }: { courseId: string }) => {
   const courseOnUsers = await prisma.courseOnUser.findMany({
     where: {
       courseId,
@@ -25,12 +19,10 @@ export const CourseUsers = async ({
         },
       },
     },
-    take: 10,
-    skip: parseInt(page) * 10,
   });
 
   const data = courseOnUsers.map((u) => ({
-    id: u.id,
+    id: u.user.id,
     email: u.user.email,
     status: u.canceledAt ? 'cancelled' : 'active',
   })) as User[];

@@ -107,6 +107,8 @@ model LessonOnUser {
 
   user   User   @relation(fields: [userId], references: [id])
   lesson Lesson @relation(fields: [lessonId], references: [id])
+
+  @@unique([userId, lessonId])
 }
 
 enum Progress {

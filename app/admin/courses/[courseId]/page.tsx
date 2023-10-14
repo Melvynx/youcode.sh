@@ -14,9 +14,11 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { Loader } from '@/components/ui/loading';
 import { prisma } from '@/db/prisma';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
 import { CourseUsers } from './CourseUsers';
 
 export default async function page({
@@ -55,15 +57,17 @@ export default async function page({
         <LayoutTitle>Course · {course.name}</LayoutTitle>
       </LayoutHeader>
       <LayoutContent className="flex items-start gap-4">
-        <Card>
+        <Card className="flex-[2]">
           <CardHeader>
             <CardTitle>Users</CardTitle>
           </CardHeader>
           <CardContent>
-            <CourseUsers page={'0'} courseId={params.courseId} />
+            <Suspense fallback={<Loader />}>
+              <CourseUsers courseId={params.courseId} />
+            </Suspense>
           </CardContent>
         </Card>
-        <Card className="w-full">
+        <Card className="flex-[1]">
           <CardHeader>
             <CardTitle>Informations</CardTitle>
           </CardHeader>

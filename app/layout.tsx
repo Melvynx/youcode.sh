@@ -28,7 +28,7 @@ export default function RootLayout({ children }: PropsWithChildren) {
           )}
         >
           <Providers>
-            <div className="relative flex min-h-screen bg-primary/50 flex-col">
+            <div className="relative flex min-h-screen flex-col">
               <PromotionBanner />
               <Header />
               <div className="flex-1">{children}</div>

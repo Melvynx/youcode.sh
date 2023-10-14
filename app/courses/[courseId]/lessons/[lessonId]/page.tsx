@@ -2,6 +2,7 @@ import { getAuthSession } from '@/auth/next-auth';
 import { Suspense } from 'react';
 import { Course } from './Course';
 import { LessonsNavigation } from './LessonsNavigation';
+import { MarkLessonAsInProgress } from './MarkLessonAsInProgress';
 import { getLesson } from './lesson.query';
 
 export default async function page({
@@ -18,7 +19,6 @@ export default async function page({
     userId: session?.user.id,
   });
 
-  console.log(lesson);
   if (!lesson) {
     return 'Lesson not found.';
   }
@@ -40,7 +40,14 @@ export default async function page({
         <LessonsNavigation courseId={params.courseId} />
       </Suspense>
       <Suspense fallback={<div>Loading...</div>}>
-        <Course content={lesson.content} progress={lesson.progress} />
+        <Course
+          lessonId={lesson.id}
+          content={lesson.content}
+          progress={lesson.progress}
+        />
+      </Suspense>
+      <Suspense fallback={null}>
+        <MarkLessonAsInProgress lessonId={lesson.id} />
       </Suspense>
     </div>
   );

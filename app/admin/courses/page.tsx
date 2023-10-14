@@ -3,7 +3,6 @@ import {
   Layout,
   LayoutActions,
   LayoutContent,
-  LayoutDescription,
   LayoutHeader,
   LayoutTitle,
 } from '@/components/layout/layout';
@@ -41,7 +40,6 @@ export default async function page() {
     <Layout>
       <LayoutHeader>
         <LayoutTitle>Courses</LayoutTitle>
-        <LayoutDescription>Create, manage and share your courses.</LayoutDescription>
       </LayoutHeader>
       <LayoutActions>
         <Button>Test</Button>

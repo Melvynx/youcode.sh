@@ -4,11 +4,41 @@ import {
   LayoutHeader,
   LayoutTitle,
 } from '@/components/layout/layout';
-import { Typography } from '@/components/ui/Typography';
-import { Badge } from '@/components/ui/badge';
+import { ButtonWithLoadingState } from '@/components/rsc/ButtonWithLoadingState';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { prisma } from '@/db/prisma';
-import Link from 'next/link';
+import { Prisma } from '@prisma/client';
+import { Lessons } from './Lessons';
+import { newLessonAction } from './[lessonId]/lesson.action';
+
+const getCourseLessons = (courseId: string) => {
+  return prisma.course.findFirstOrThrow({
+    where: {
+      id: courseId,
+    },
+
+    select: {
+      id: true,
+      name: true,
+
+      lessons: {
+        orderBy: {
+          rank: 'asc',
+        },
+        select: {
+          id: true,
+          name: true,
+          state: true,
+          rank: true,
+        },
+      },
+    },
+  });
+};
+
+export type CourseLessons = Prisma.PromiseReturnType<
+  typeof getCourseLessons
+>['lessons'];
 
 export default async function page({
   params,
@@ -17,23 +47,7 @@ export default async function page({
     courseId: string;
   };
 }) {
-  const course = await prisma.course.findFirstOrThrow({
-    where: {
-      id: params.courseId,
-    },
-    select: {
-      id: true,
-      name: true,
-
-      lessons: {
-        select: {
-          id: true,
-          name: true,
-          state: true,
-        },
-      },
-    },
-  });
+  const course = await getCourseLessons(params.courseId);
 
   return (
     <Layout>
@@ -46,18 +60,24 @@ export default async function page({
             <CardTitle>Lessons</CardTitle>
           </CardHeader>
           <CardContent className="flex flex-col gap-2">
-            {course.lessons.map((lesson) => (
-              <Link
-                href={`/admin/courses/${course.id}/lessons/${lesson.id}`}
-                className="p-2 border flex items-center border-border shadow-sm rounded-md hover:bg-accent"
-                key={lesson.id}
+            <Lessons
+              key={course.lessons.length}
+              lessons={course.lessons}
+              courseId={course.id}
+            />
+            <form>
+              <ButtonWithLoadingState
+                formAction={async () => {
+                  'use server';
+                  await newLessonAction({
+                    courseId: course.id,
+                  });
+                }}
+                variant="secondary"
               >
-                <Typography variant="small" as="span">
-                  {lesson.name}
-                </Typography>
-                <Badge className="ml-auto">{lesson.state}</Badge>
-              </Link>
-            ))}
+                New lesson
+              </ButtonWithLoadingState>
+            </form>
           </CardContent>
         </Card>
       </LayoutContent>

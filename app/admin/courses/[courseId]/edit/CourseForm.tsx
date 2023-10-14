@@ -44,8 +44,17 @@ export const CourseForm = (props: { course: CourseFormSchema | undefined }) => {
       form={form}
       className="flex flex-col gap-2"
       onSubmit={async (values) => {
-        const updatedCourse = await editCourse(courseId, values);
-        router.push(`/admin/courses/${updatedCourse.id}`);
+        const { data, serverError } = await editCourse({
+          id: courseId,
+          data: values,
+        });
+
+        if (serverError) {
+          toast.error(serverError);
+          return;
+        }
+
+        router.push(`/admin/courses/${data?.id}`);
         toast.success('Lesson updated');
       }}
     >

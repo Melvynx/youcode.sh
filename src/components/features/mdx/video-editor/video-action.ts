@@ -1,8 +1,9 @@
 'use server';
 
-import { getAuthSession } from '@/auth/next-auth';
+import { authenticatedAction } from '@/components/lib/safe-actions';
 import { prisma } from '@/db/prisma';
 import Video from '@/lib/mux';
+import { z } from 'zod';
 
 export const createUpload = async () => {
   const directUpload = await Video.Uploads.create({
@@ -21,43 +22,34 @@ export const createUpload = async () => {
   };
 };
 
-export async function saveVideoToDb({
-  title,
-  uploadId,
-}: {
-  title: string;
-  uploadId: string;
-}) {
-  const session = await getAuthSession();
-  const userId = session?.user.id;
+export const saveVideoToDb = authenticatedAction(
+  z.object({
+    title: z.string(),
+    uploadId: z.string(),
+  }),
+  async ({ title, uploadId }, { userId }) => {
+    const upload = await Video.Uploads.get(uploadId);
+    const assetId = upload.asset_id;
 
-  if (!userId) {
-    return;
+    if (!assetId) {
+      return;
+    }
+
+    await prisma.video.create({
+      data: {
+        title,
+        userId,
+        assetId,
+      },
+    });
+
+    const asset = await Video.Assets.update(assetId, { passthrough: title });
+
+    // create playback id
+    const playbackId = await Video.Assets.createPlaybackId(asset.id, {
+      policy: 'public',
+    });
+
+    return playbackId.id;
   }
-
-  const upload = await Video.Uploads.get(uploadId);
-  const assetId = upload.asset_id;
-
-  if (!assetId) {
-    return;
-  }
-
-  await prisma.video.create({
-    data: {
-      title,
-      userId,
-      assetId,
-    },
-  });
-
-  const asset = await Video.Assets.update(assetId, { passthrough: title });
-
-  // create playback id
-  const playbackId = await Video.Assets.createPlaybackId(asset.id, {
-    policy: 'public',
-  });
-
-  console.log({ playbackId: playbackId.id });
-
-  return playbackId.id;
-}
+);

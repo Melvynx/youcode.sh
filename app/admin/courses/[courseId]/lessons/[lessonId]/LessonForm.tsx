@@ -44,7 +44,16 @@ export const LessonForm = (props: { name: string; state: LessonState }) => {
       form={form}
       className="flex flex-col gap-2"
       onSubmit={async (values) => {
-        await editLesson(lessonId, values);
+        const { data, serverError } = await editLesson({
+          id: lessonId,
+          data: values,
+        });
+
+        if (serverError) {
+          toast.error(serverError);
+          return;
+        }
+
         toast.success('Lesson updated');
       }}
     >

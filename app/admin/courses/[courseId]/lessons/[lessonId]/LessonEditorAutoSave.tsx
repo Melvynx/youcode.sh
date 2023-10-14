@@ -3,6 +3,7 @@
 import Editor from '@/components/features/mdx/MdxEditor';
 import { useDebounceFn } from '@/hooks/useDebounceFn';
 import { useEffect, useRef } from 'react';
+import { toast } from 'sonner';
 import { editLessonContent } from './lesson.action';
 
 export const LessonEditorAutoSave = ({
@@ -16,10 +17,14 @@ export const LessonEditorAutoSave = ({
   const currentMdRef = useRef<string>();
   const onChange = useDebounceFn((md: string) => {
     lastSavedRef.current = md;
-    editLessonContent(lessonId, md);
+    editLessonContent({
+      id: lessonId,
+      markdown: md,
+    }).catch(() => {
+      toast.error('Failed to save lesson content');
+    });
   }, 1000);
 
-  // if the user leave the page, show a popoup only if the content has changed
   useEffect(() => {
     const beforeUnloadHandler = (e: BeforeUnloadEvent) => {
       if (lastSavedRef.current !== currentMdRef.current) {

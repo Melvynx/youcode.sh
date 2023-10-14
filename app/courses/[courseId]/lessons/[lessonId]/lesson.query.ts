@@ -74,6 +74,9 @@ export const getLessons = async ({
         in: ['PUBLISHED', 'PUBLIC'],
       },
     },
+    orderBy: {
+      rank: 'asc',
+    },
     select: {
       id: true,
       name: true,
@@ -82,7 +85,7 @@ export const getLessons = async ({
       createdAt: true,
       users: {
         where: {
-          id: userId,
+          userId: userId,
         },
         select: {
           id: true,

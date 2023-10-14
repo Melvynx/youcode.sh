@@ -38,6 +38,7 @@ export const LessonsNavigationMenu = ({
   lessons: LessonsType;
   courseId: string;
 }) => {
+  console.log({ lessons });
   const state = useLessonNavigationState();
   const setState = useLessonNavigation((s) => s.setState);
   const params = useParams();
