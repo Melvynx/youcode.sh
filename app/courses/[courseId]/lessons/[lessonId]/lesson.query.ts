@@ -38,7 +38,7 @@ export const getLesson = async ({
       },
       users: {
         where: {
-          id: userId,
+          userId,
         },
         select: {
           progress: true,

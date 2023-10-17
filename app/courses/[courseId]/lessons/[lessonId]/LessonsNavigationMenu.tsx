@@ -10,7 +10,9 @@ import {
   ChevronLeft,
   Circle,
   CircleDashed,
+  Menu,
   PanelLeftClose,
+  PanelLeftOpen,
 } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
@@ -19,17 +21,7 @@ import {
   useLessonNavigationState,
 } from './LessonsNavigationStore';
 import { LessonsType } from './lesson.query';
-
-const getIconByProgress = ({ progress }: { progress?: Progress }) => {
-  switch (progress) {
-    case 'COMPLETED':
-      return CheckCircle;
-    case 'IN_PROGRESS':
-      return Circle;
-    default:
-      return CircleDashed;
-  }
-};
+import { getIconByProgress } from './getIconByProgress';
 
 export const LessonsNavigationMenu = ({
   lessons,
@@ -46,7 +38,7 @@ export const LessonsNavigationMenu = ({
   const currentLessonId = params?.lessonId;
 
   const lessonsJsx = lessons.map((lesson) => {
-    const Icon = getIconByProgress({ progress: lesson.progress });
+    const Icon = getIconByProgress(lesson.progress);
     const isCurrent = lesson.id === currentLessonId;
     return (
       <Link
@@ -73,7 +65,7 @@ export const LessonsNavigationMenu = ({
   if (state === 'STICKY') {
     return (
       <Card>
-        <CardHeader className="flex flex-row">
+        <CardHeader className="flex flex-row  items-center space-y-0">
           <Link
             href={`/courses/${courseId}`}
             className={buttonVariants({
@@ -84,7 +76,12 @@ export const LessonsNavigationMenu = ({
             <ChevronLeft size={16} />
           </Link>
           <CardTitle>Lessons</CardTitle>
-          <Button onClick={() => setState('CLOSED')} size="sm" variant="outline">
+          <Button
+            onClick={() => setState('CLOSED')}
+            size="sm"
+            variant="outline"
+            className="ml-auto"
+          >
             <PanelLeftClose size={16} />
           </Button>
         </CardHeader>
@@ -102,21 +99,44 @@ export const LessonsNavigationMenu = ({
         }
       }}
     >
-      <SheetContent>
+      <div className="absolute top-4 lg:top-8 lg:left-8 left-4">
+        <Link
+          href={`/courses/${courseId}`}
+          className={buttonVariants({
+            variant: 'ghost',
+            size: 'sm',
+          })}
+        >
+          <ChevronLeft size={16} />
+        </Link>
+        <Button onClick={() => setState('OPEN')} size="sm" variant="outline">
+          <Menu size={16} />
+        </Button>
+      </div>
+      <SheetContent side="left" style={{ zIndex: 150 }}>
         <SheetHeader>
-          <Link
-            href={`/courses/${courseId}`}
-            className={buttonVariants({
-              variant: 'ghost',
-              size: 'sm',
-            })}
-          >
-            <ChevronLeft size={16} />
-          </Link>
+          <div className="w-full flex gap-4">
+            <Link
+              href={`/courses/${courseId}`}
+              className={buttonVariants({
+                variant: 'ghost',
+                size: 'sm',
+              })}
+            >
+              <ChevronLeft size={16} />
+              Back
+            </Link>
+            <Button
+              className=" hidden md:flex"
+              onClick={() => setState('STICKY')}
+              size="sm"
+              variant="outline"
+            >
+              <PanelLeftOpen size={16} />
+            </Button>
+          </div>
           <SheetTitle>Lessons</SheetTitle>
-          <Button onClick={() => setState('CLOSED')} size="sm" variant="outline">
-            <PanelLeftClose size={16} />
-          </Button>
+          {lessonsJsx}
         </SheetHeader>
       </SheetContent>
     </Sheet>

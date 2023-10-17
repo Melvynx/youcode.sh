@@ -4,11 +4,12 @@ import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { z } from 'zod';
 
-export const completLesson = authenticatedAction(
+export const handleLessonState = authenticatedAction(
   z.object({
     lessonId: z.string(),
+    state: z.enum(['COMPLETED', 'IN_PROGRESS']),
   }),
-  async ({ lessonId }, { userId }) => {
+  async ({ lessonId, state }, { userId }) => {
     const updatedLesson = await prisma.lessonOnUser.update({
       where: {
         userId_lessonId: {
@@ -26,7 +27,7 @@ export const completLesson = authenticatedAction(
         },
       },
       data: {
-        progress: 'COMPLETED',
+        progress: state,
       },
     });
 

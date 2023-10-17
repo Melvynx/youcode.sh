@@ -1,5 +1,6 @@
-import { create } from 'zustand';
 import { useMediaQuery } from 'usehooks-ts';
+import { create } from 'zustand';
+import { persist } from 'zustand/middleware';
 
 type LessonNavigationState = 'OPEN' | 'CLOSED' | 'STICKY';
 
@@ -8,10 +9,17 @@ type LessonNavigationStore = {
   setState: (state: LessonNavigationState) => void;
 };
 
-export const useLessonNavigation = create<LessonNavigationStore>((set) => ({
-  state: 'STICKY',
-  setState: (state: LessonNavigationState) => set({ state }),
-}));
+export const useLessonNavigation = create(
+  persist<LessonNavigationStore>(
+    (set) => ({
+      state: 'STICKY',
+      setState: (state: LessonNavigationState) => set({ state }),
+    }),
+    {
+      name: 'prose-settings',
+    }
+  )
+);
 
 export const useLessonNavigationState = () => {
   const state = useLessonNavigation((state) => state.state);

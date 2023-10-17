@@ -3,9 +3,10 @@ import { ButtonWithLoadingState } from '@/components/rsc/ButtonWithLoadingState'
 import { Card } from '@/components/ui/card';
 import { Progress } from '@prisma/client';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { completLesson } from './lesson-client.action';
+import rehypePrism from 'rehype-prism-plus';
+import { handleLessonState } from './lesson-client.action';
 
-export const Course = async ({
+export const Lesson = async ({
   content,
   progress,
   lessonId,
@@ -16,27 +17,34 @@ export const Course = async ({
 }) => {
   return (
     <Card className="w-full h-full px-4 xl:px-0 overflow-y-auto py-4 xl:py-8">
-      <article className="prose dark:prose-invert max-w-2xl m-auto">
+      <article className="prose mt-4 dark:prose-invert max-w-2xl m-auto">
         <MDXRemote
           components={{
             MuxVideo: MuxVideo,
           }}
+          options={{
+            mdxOptions: {
+              rehypePlugins: [rehypePrism],
+            },
+          }}
           source={content}
         />
       </article>
+
       <div className="mt-4 flex flex-row-reverse max-w-2xl m-auto">
         <form>
           <ButtonWithLoadingState
             formAction={async () => {
               'use server';
 
-              await completLesson({
+              await handleLessonState({
                 lessonId: lessonId,
+                state: progress === 'COMPLETED' ? 'IN_PROGRESS' : 'COMPLETED',
               });
             }}
             size="lg"
           >
-            Completed
+            {progress === 'COMPLETED' ? 'Mark as in progress' : 'Completed'}
           </ButtonWithLoadingState>
         </form>
       </div>

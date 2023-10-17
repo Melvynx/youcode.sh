@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/button';
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -15,14 +16,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { LessonState } from '@prisma/client';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
-import { z } from 'zod';
 import { CourseFormSchema } from './course-form.schema';
 import { editCourse } from './course.action';
-
-const FormSchema = z.object({
-  name: z.string(),
-  state: z.nativeEnum(LessonState),
-});
 
 export const CourseForm = (props: { course: CourseFormSchema | undefined }) => {
   const params = useParams();
@@ -42,7 +37,7 @@ export const CourseForm = (props: { course: CourseFormSchema | undefined }) => {
   return (
     <Form
       form={form}
-      className="flex flex-col gap-2"
+      className="flex flex-col gap-4"
       onSubmit={async (values) => {
         const { data, serverError } = await editCourse({
           id: courseId,
@@ -91,11 +86,12 @@ export const CourseForm = (props: { course: CourseFormSchema | undefined }) => {
         name="presentation"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Image</FormLabel>
+            <FormLabel>Presentation</FormLabel>
             <FormControl>
               <Textarea placeholder="My beautiful course... join it!" {...field} />
             </FormControl>
             <FormMessage />
+            <FormDescription>Markdown supported.</FormDescription>
           </FormItem>
         )}
       />

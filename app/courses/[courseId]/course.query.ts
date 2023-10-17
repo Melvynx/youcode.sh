@@ -1,7 +1,8 @@
 import { prisma } from '@/db/prisma';
+import { Prisma } from '@prisma/client';
 
-export const getCourse = (courseId: string, userId = 'error') => {
-  return prisma.course.findUnique({
+export const getCourse = async (courseId: string, userId = 'error') => {
+  const course = await prisma.course.findUnique({
     where: {
       id: courseId,
     },
@@ -17,6 +18,15 @@ export const getCourse = (courseId: string, userId = 'error') => {
           image: true,
         },
       },
+      users: {
+        select: {
+          userId: true,
+        },
+        where: {
+          userId: userId,
+        },
+      },
+
       lessons: {
         select: {
           name: true,
@@ -25,7 +35,7 @@ export const getCourse = (courseId: string, userId = 'error') => {
           state: true,
           users: {
             where: {
-              id: userId,
+              userId: userId,
             },
             select: {
               progress: true,
@@ -40,4 +50,19 @@ export const getCourse = (courseId: string, userId = 'error') => {
       },
     },
   });
+
+  if (!course) {
+    return null;
+  }
+
+  return {
+    ...course,
+    lessons: course.lessons.map((lesson) => ({
+      ...lesson,
+      progress: lesson.users[0]?.progress,
+    })),
+    isMember: course.users.length > 0,
+  };
 };
+
+export type CourseView = NonNullable<Prisma.PromiseReturnType<typeof getCourse>>;

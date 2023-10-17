@@ -1,6 +1,6 @@
 import { getAuthSession } from '@/auth/next-auth';
 import { Suspense } from 'react';
-import { Course } from './Course';
+import { Lesson } from './Lesson';
 import { LessonsNavigation } from './LessonsNavigation';
 import { MarkLessonAsInProgress } from './MarkLessonAsInProgress';
 import { getLesson } from './lesson.query';
@@ -31,7 +31,7 @@ export default async function page({
 
   return (
     <div
-      className="flex p-4 gap-4 h-full"
+      className="flex p-2 lg:p-4 gap-4 h-full relative"
       style={{
         height: `calc(100vh - var(--header-height) - 1px)`,
       }}
@@ -40,7 +40,7 @@ export default async function page({
         <LessonsNavigation courseId={params.courseId} />
       </Suspense>
       <Suspense fallback={<div>Loading...</div>}>
-        <Course
+        <Lesson
           lessonId={lesson.id}
           content={lesson.content}
           progress={lesson.progress}

@@ -8,8 +8,13 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { useEffect } from 'react';
 
-export default function Error() {
+export default function Error({ error }: { error: Error }) {
+  useEffect(() => {
+    console.error('Error', error);
+  }, [error]);
+
   return (
     <Card className="max-w-md m-auto mt-4 bg-destructive/20 border-destructive/50">
       <CardHeader>
