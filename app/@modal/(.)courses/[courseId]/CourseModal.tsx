@@ -27,7 +27,7 @@ export const CourseModal = ({
         router.back();
       }}
     >
-      <DialogContent className="max-h-screen overflow-auto max-w-screen-lg">
+      <DialogContent className="max-h-screen overflow-auto max-w-3xl">
         <DialogHeader>
           <DialogTitle>{course.name}</DialogTitle>
         </DialogHeader>

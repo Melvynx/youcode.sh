@@ -1,5 +1,3 @@
-import { getAuthSession } from '@/auth/next-auth';
-import { ButtonWithLoadingState } from '@/components/rsc/ButtonWithLoadingState';
 import { Typography } from '@/components/ui/Typography';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import {
@@ -9,11 +7,9 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
-import { prisma } from '@/db/prisma';
 import { MDXRemote } from 'next-mdx-remote/rsc';
-import { revalidatePath } from 'next/cache';
 import Link from 'next/link';
-import { redirect } from 'next/navigation';
+import { JoinCourseButton } from './JoinCourseButton';
 import { CourseView } from './course.query';
 import { getIconByProgress } from './lessons/[lessonId]/getIconByProgress';
 
@@ -37,47 +33,7 @@ export const Course = ({ course }: { course: CourseView }) => {
         </CardContent>
         {course.isMember ? null : (
           <CardFooter>
-            <form>
-              <ButtonWithLoadingState
-                formAction={async () => {
-                  'use server';
-
-                  const session = await getAuthSession();
-
-                  if (!session?.user.id) throw new Error('Unauthorized');
-
-                  const courseOnUser = await prisma.courseOnUser.create({
-                    data: {
-                      courseId: course.id,
-                      userId: session.user.id,
-                    },
-                    select: {
-                      course: {
-                        select: {
-                          id: true,
-                          lessons: {
-                            select: {
-                              id: true,
-                            },
-                            take: 1,
-                            orderBy: {
-                              rank: 'asc',
-                            },
-                          },
-                        },
-                      },
-                    },
-                  });
-
-                  revalidatePath(`/courses/${course.id}`);
-                  redirect(
-                    `/courses/${course.id}/lessons/${courseOnUser.course.lessons[0]?.id}`
-                  );
-                }}
-              >
-                Join
-              </ButtonWithLoadingState>
-            </form>
+            <JoinCourseButton courseId={course.id} />
           </CardFooter>
         )}
       </Card>

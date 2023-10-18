@@ -7,6 +7,12 @@ export const getExploreCourses = async () => {
       presentation: true,
       image: true,
       id: true,
+      creator: {
+        select: {
+          name: true,
+          image: true,
+        },
+      },
     },
   });
 

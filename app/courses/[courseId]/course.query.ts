@@ -28,6 +28,9 @@ export const getCourse = async (courseId: string, userId = 'error') => {
       },
 
       lessons: {
+        orderBy: {
+          rank: 'asc',
+        },
         select: {
           name: true,
           rank: true,
