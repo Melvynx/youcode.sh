@@ -19,7 +19,7 @@ export const LayoutHeader = (props: ComponentPropsWithoutRef<'div'>) => {
     <div
       {...props}
       className={cn(
-        'flex items-start gap-1 flex-col w-full md:flex-1',
+        'flex items-start gap-1 flex-col w-full md:flex-1 min-w-[200px]',
         props.className
       )}
     />
