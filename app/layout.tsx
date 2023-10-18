@@ -1,4 +1,5 @@
 import { TailwindIndicator } from '@/components/TailwindIndicator';
+import { Footer } from '@/components/layout/Footer';
 import { Header } from '@/components/layout/Header';
 import { SiteConfig } from '@/config';
 import { PromotionBanner } from '@/features/nextreact/PromotionBanner';
@@ -38,6 +39,7 @@ export default function RootLayout({
               <PromotionBanner />
               <Header />
               <div className="flex-1">{children}</div>
+              <Footer />
             </div>
             {modal}
             <TailwindIndicator />

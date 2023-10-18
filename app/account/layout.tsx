@@ -1,5 +1,5 @@
+import { Layout } from '@/components/layout/layout';
 import { NotLoggedIn } from '@/features/errors/NotLoggedIn';
-import { Layout } from '@/features/layout/Layout';
 import { getAuthSession } from '@/lib/next-auth';
 import { PropsWithChildren } from 'react';
 
