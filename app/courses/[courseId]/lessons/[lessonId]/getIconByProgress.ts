@@ -1,4 +1,4 @@
-import { Progress } from '@prisma/client';
+import type { Progress } from '@prisma/client';
 import { CheckCircle, Circle, CircleDashed } from 'lucide-react';
 
 export const getIconByProgress = (progress?: Progress) => {

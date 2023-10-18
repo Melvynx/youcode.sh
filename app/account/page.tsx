@@ -19,9 +19,9 @@ export default async function page() {
       <CardHeader className="flex items-center flex-row space-y-0 gap-2">
         <Avatar>
           <AvatarFallback>
-            {session.user.email ? session?.user.email.slice(0, 2) : '??'}
+            {session.user.email ? session.user.email.slice(0, 2) : '??'}
           </AvatarFallback>
-          {session.user.image && <AvatarImage src={session?.user.image} />}
+          {session.user.image && <AvatarImage src={session.user.image} />}
         </Avatar>
         <div>
           <CardTitle className="mt-0">{session.user.email}</CardTitle>

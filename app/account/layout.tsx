@@ -1,7 +1,7 @@
 import { Layout } from '@/components/layout/layout';
 import { NotLoggedIn } from '@/features/errors/NotLoggedIn';
 import { getAuthSession } from '@/lib/next-auth';
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
 export default async function layout({ children }: PropsWithChildren) {
   const session = await getAuthSession();

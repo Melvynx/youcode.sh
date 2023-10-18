@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
 export const getCourses = async (userId: string) => {
   const user = await prisma.user.findFirstOrThrow({

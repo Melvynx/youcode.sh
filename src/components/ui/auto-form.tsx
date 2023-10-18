@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
 'use client';
 import {
   Select,
@@ -9,15 +11,13 @@ import {
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Plus, Trash } from 'lucide-react';
 import React from 'react';
-import {
+import type {
   ControllerRenderProps,
   DefaultValues,
   FieldValues,
-  FormProvider,
-  useFieldArray,
-  useForm,
 } from 'react-hook-form';
-import { z } from 'zod';
+import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
+import type { z } from 'zod';
 import { cn } from '../../lib/utils';
 import {
   Accordion,
@@ -525,7 +525,7 @@ function AutoFormObject<SchemaType extends z.ZodObject<any, any>>({
         const fieldConfigItem: FieldConfigItem = fieldConfig?.[name] ?? {};
         const zodInputProps = zodToHtmlInputProps(item);
         const isRequired =
-          zodInputProps.required || fieldConfigItem.inputProps?.required || false;
+          zodInputProps.required ?? fieldConfigItem.inputProps?.required ?? false;
 
         return (
           <FormField
@@ -660,7 +660,6 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
     getDefaultValues(objectFormSchema);
 
   const form = useForm<z.infer<typeof objectFormSchema>>({
-    // @ts-ignore
     resolver: zodResolver(formSchema),
     defaultValues,
     values: valuesProp,
@@ -676,8 +675,8 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
   return (
     <FormProvider {...form}>
       <form
-        onSubmit={(e) => {
-          form.handleSubmit(onSubmit)(e);
+        onSubmit={async (e) => {
+          await form.handleSubmit(onSubmit)(e);
         }}
         onChange={() => {
           const values = form.getValues();

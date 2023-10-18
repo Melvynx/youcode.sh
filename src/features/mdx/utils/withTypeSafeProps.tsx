@@ -1,9 +1,9 @@
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
-import { ComponentType } from 'react';
-import { ZodRawShape, z } from 'zod';
+import type { ComponentType } from 'react';
+import type { ZodRawShape, z } from 'zod';
 
 export function withTypeSafeProps<T extends ZodRawShape>(
-  Component: ComponentType<any>,
+  Component: ComponentType<unknown>,
   schema: z.ZodObject<T>
 ) {
   const TypeSafeInnerComponent = (props: unknown) => {

@@ -10,7 +10,7 @@ import {
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import Link from 'next/link';
 import { JoinCourseButton } from './JoinCourseButton';
-import { CourseView } from './course.query';
+import type { CourseView } from './course.query';
 import { getIconByProgress } from './lessons/[lessonId]/getIconByProgress';
 
 export const Course = ({ course }: { course: CourseView }) => {

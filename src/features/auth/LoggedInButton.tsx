@@ -13,13 +13,13 @@ import {
 import { Loader } from '@/components/ui/loading';
 import { useMutation } from '@tanstack/react-query';
 import { GraduationCap, LogOut, ShieldCheck, User2 } from 'lucide-react';
-import { Session } from 'next-auth';
+import type { Session } from 'next-auth';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 
 export const LoggedInButton = ({ user }: { user: Session['user'] }) => {
   const logout = useMutation({
-    mutationFn: () => signOut(),
+    mutationFn: async () => signOut(),
   });
 
   return (

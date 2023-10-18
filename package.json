@@ -80,6 +80,7 @@
   "devDependencies": {
     "@faker-js/faker": "^8.1.0",
     "@tailwindcss/typography": "^0.5.10",
+    "@typescript-eslint/eslint-plugin": "^6.8.0",
     "prisma": "^5.3.1"
   },
   "prisma": {

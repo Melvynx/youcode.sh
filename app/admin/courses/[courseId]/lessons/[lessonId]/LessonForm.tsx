@@ -51,10 +51,11 @@ export const LessonForm = (props: { name: string; state: LessonState }) => {
 
         if (serverError) {
           toast.error(serverError);
-          return;
         }
 
-        toast.success('Lesson updated');
+        if (data) {
+          toast.success('Lesson updated');
+        }
       }}
     >
       <FormField

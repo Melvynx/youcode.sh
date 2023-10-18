@@ -6,7 +6,7 @@ import { useMutation } from '@tanstack/react-query';
 import { signIn } from 'next-auth/react';
 
 export const LoginButton = () => {
-  const login = useMutation({ mutationFn: () => signIn() });
+  const login = useMutation({ mutationFn: async () => signIn() });
   return (
     <Button
       size="sm"

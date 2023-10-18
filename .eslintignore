@@ -1,0 +1,4 @@
+tailwind.config.js
+node_modules
+postcss.config.js
+next.config.js

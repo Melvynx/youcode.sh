@@ -1,7 +1,7 @@
 import { ButtonWithLoadingState } from '@/components/rsc/ButtonWithLoadingState';
 import { Card } from '@/components/ui/card';
 import MuxVideo from '@/features/mdx/components/MuxVideo';
-import { Progress } from '@prisma/client';
+import type { Progress } from '@prisma/client';
 import { MDXRemote } from 'next-mdx-remote/rsc';
 import rehypePrism from 'rehype-prism-plus';
 import { handleLessonState } from './lesson-client.action';

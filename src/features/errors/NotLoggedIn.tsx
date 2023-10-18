@@ -19,7 +19,7 @@ export const NotLoggedIn = () => {
         <Button
           variant="secondary"
           onClick={() => {
-            signIn();
+            void signIn();
           }}
         >
           Log In

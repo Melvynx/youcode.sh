@@ -1,5 +1,5 @@
 import { prisma } from '@/lib/prisma';
-import { Prisma } from '@prisma/client';
+import type { Prisma } from '@prisma/client';
 
 export const getLesson = async ({
   lessonId,
@@ -54,7 +54,7 @@ export const getLesson = async ({
 
   return {
     ...lesson,
-    progress: lesson?.users[0]?.progress,
+    progress: lesson.users[0]?.progress,
   };
 };
 

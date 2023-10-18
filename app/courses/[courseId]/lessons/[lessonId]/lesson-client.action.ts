@@ -53,7 +53,7 @@ export const handleLessonState = authenticatedAction(
 
     if (nextLesson) {
       redirect(
-        `/courses/${updatedLesson.lesson.courseId}/lessons/${nextLesson?.id}`
+        `/courses/${updatedLesson.lesson.courseId}/lessons/${nextLesson.id}`
       );
     }
   }

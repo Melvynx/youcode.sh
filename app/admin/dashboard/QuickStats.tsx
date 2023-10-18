@@ -5,7 +5,7 @@ import { prisma } from '@/lib/prisma';
 
 export const QuickStats = async () => {
   const session = await getAuthSession();
-  const userId = session?.user?.id;
+  const userId = session?.user.id;
 
   if (!userId) {
     return null;

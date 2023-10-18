@@ -3,9 +3,9 @@
 import { Typography } from '@/components/ui/Typography';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import type { DragEndEvent } from '@dnd-kit/core';
 import {
   DndContext,
-  DragEndEvent,
   KeyboardSensor,
   PointerSensor,
   closestCenter,
@@ -25,7 +25,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { toast } from 'sonner';
 import { saveLessonMove } from './[lessonId]/lesson.action';
-import { CourseLessons } from './page';
+import type { CourseLessons } from './page';
 
 export const Lessons = ({
   lessons: defaultLessons,
@@ -64,7 +64,7 @@ export const Lessons = ({
         const newUpItem = newItems[newIndex - 1]?.rank;
         const newDownItem = newItems[newIndex + 1]?.rank;
 
-        saveLessonMove({
+        void saveLessonMove({
           upItemRank: newUpItem,
           downItemRank: newDownItem,
           lessonId: String(active.id),

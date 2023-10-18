@@ -7,8 +7,8 @@ import {
   DialogTitle,
 } from '@/components/ui/dialog';
 import { usePathname, useRouter } from 'next/navigation';
-import { PropsWithChildren } from 'react';
-import { CourseView } from '../../../courses/[courseId]/course.query';
+import type { PropsWithChildren } from 'react';
+import type { CourseView } from '../../../courses/[courseId]/course.query';
 
 export const CourseModal = ({
   course,

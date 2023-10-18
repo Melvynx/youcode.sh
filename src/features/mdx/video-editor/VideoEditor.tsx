@@ -2,30 +2,30 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Loader } from '@/components/ui/loading';
-import { JsxEditorProps, useMdastNodeUpdater } from '@mdxeditor/editor';
+import type { JsxEditorProps } from '@mdxeditor/editor';
+import { useMdastNodeUpdater } from '@mdxeditor/editor';
 import MuxPlayer from '@mux/mux-player-react';
 import MuxUploader from '@mux/mux-uploader-react';
 import { useMutation, useQuery } from '@tanstack/react-query';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 
 import { createUpload, saveVideoToDb } from './video-action';
 
-export const MuxVideoEditor = ({ mdastNode, descriptor }: JsxEditorProps) => {
+export const MuxVideoEditor = ({ mdastNode }: JsxEditorProps) => {
   const updateMdastNode = useMdastNodeUpdater();
   const ref = useRef<HTMLDivElement>(null);
 
-  const assetId = mdastNode?.attributes?.find(
+  const assetId = mdastNode.attributes.find(
     (attr) => attr.type === 'mdxJsxAttribute' && attr.name === 'id'
   )?.value;
-  const title = mdastNode?.attributes?.find(
+  const title = mdastNode.attributes.find(
     (attr) => attr.type === 'mdxJsxAttribute' && attr.name === 'title'
   )?.value;
-  const [uploaded, setUploaded] = useState(false);
 
   const { data } = useQuery({
     enabled: !Boolean(assetId),
     queryKey: ['video'],
-    queryFn: () => createUpload(),
+    queryFn: async () => createUpload(),
     refetchInterval: Infinity,
     refetchOnWindowFocus: false,
   });
@@ -45,11 +45,11 @@ export const MuxVideoEditor = ({ mdastNode, descriptor }: JsxEditorProps) => {
 
     const muxUploaderDrop = shadowRoot.querySelector(
       'mux-uploader-drop'
-    ) as HTMLDivElement;
+    ) as HTMLDivElement | null;
 
     const muxSrText = shadowRoot.querySelector(
       'mux-uploader-sr-text'
-    ) as HTMLDivElement;
+    ) as HTMLDivElement | null;
     if (muxSrText) {
       muxSrText.style.display = 'none';
     }
@@ -103,7 +103,7 @@ export const MuxVideoEditor = ({ mdastNode, descriptor }: JsxEditorProps) => {
         </CardHeader>
         <CardContent>
           <MuxPlayer
-            src={`https://stream.mux.com/${assetId}.m3u8`}
+            src={`https://stream.mux.com/${String(assetId)}.m3u8`}
             title={String(title)}
           />
         </CardContent>
@@ -143,10 +143,9 @@ export const MuxVideoEditor = ({ mdastNode, descriptor }: JsxEditorProps) => {
         >
           <Input placeholder="Title" name="title" />
           <MuxUploader
-            // className="h-14 block"
             endpoint={url}
             className="flex w-full flex-col"
-            onSuccess={() => setUploaded(true)}
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ref={ref as any}
           ></MuxUploader>
           <Button type="submit">Save</Button>

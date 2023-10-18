@@ -12,7 +12,7 @@ import {
   useLessonNavigationState,
 } from './LessonsNavigationStore';
 import { getIconByProgress } from './getIconByProgress';
-import { LessonsType } from './lesson.query';
+import type { LessonsType } from './lesson.query';
 
 export const LessonsNavigationMenu = ({
   lessons,

@@ -7,7 +7,7 @@ import { LogOut } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 
 export const LogoutButton = () => {
-  const logout = useMutation({ mutationFn: () => signOut() });
+  const logout = useMutation({ mutationFn: async () => signOut() });
   return (
     <Button
       size="sm"

@@ -1,20 +1,19 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card } from '@/components/ui/card';
 import type { FC } from 'react';
 import type { DropTargetMonitor } from 'react-dnd';
 import { useDrop } from 'react-dnd';
 
-export interface TargetBoxProps {
+export type TargetBoxProps = {
   onDrop: (item: { files: File[] }) => void;
-}
+};
 
 export const TargetBox: FC<TargetBoxProps> = ({ onDrop }) => {
   const [{ canDrop, isOver }, drop] = useDrop(
     () => ({
       accept: '.mp4',
       drop(item: { files: any[] }) {
-        if (onDrop) {
-          onDrop(item);
-        }
+        onDrop(item);
       },
       canDrop(item: any) {
         console.log('canDrop', item.files, item.items);

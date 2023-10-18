@@ -2,6 +2,10 @@
 
 import { Separator } from '@/components/ui/separator';
 import { cn } from '@/lib/utils';
+import type {
+  JsxComponentDescriptor,
+  MDXEditorMethods,
+  SandpackConfig} from '@mdxeditor/editor';
 import {
   BoldItalicUnderlineToggles,
   Button,
@@ -11,10 +15,7 @@ import {
   DiffSourceToggleWrapper,
   InsertCodeBlock,
   InsertSandpack,
-  JsxComponentDescriptor,
   MDXEditor,
-  MDXEditorMethods,
-  SandpackConfig,
   ShowSandpackInfo,
   UndoRedo,
   codeBlockPlugin,
@@ -33,10 +34,10 @@ import {
 } from '@mdxeditor/editor';
 import '@mdxeditor/editor/style.css';
 import { useTheme } from 'next-themes';
-import { FC } from 'react';
+import type { FC } from 'react';
 import { MuxVideoEditor } from './video-editor/VideoEditor';
 
-interface EditorProps {
+type EditorProps = {
   markdown: string;
   editorRef?: React.MutableRefObject<MDXEditorMethods | null>;
 }

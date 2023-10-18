@@ -24,7 +24,7 @@ export default async function page({
   }
 
   if (lesson.state === 'PUBLISHED') {
-    if (lesson.course?.users.length === 0) {
+    if (lesson.course.users.length === 0) {
       return 'You need to pay.';
     }
   }

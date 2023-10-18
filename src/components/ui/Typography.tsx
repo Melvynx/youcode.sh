@@ -1,4 +1,6 @@
-import { VariantProps, cva } from 'class-variance-authority';
+/* eslint-disable @typescript-eslint/no-unnecessary-condition */
+import type { VariantProps } from 'class-variance-authority';
+import { cva } from 'class-variance-authority';
 import type {
   ComponentPropsWithoutRef,
   ElementType,

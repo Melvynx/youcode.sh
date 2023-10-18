@@ -71,6 +71,7 @@ const useFormField = () => {
 
   const fieldState = getFieldState(fieldContext.name, formState);
 
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-condition
   if (!fieldContext) {
     throw new Error('useFormField should be used within <FormField>');
   }
@@ -200,7 +201,6 @@ const useZodForm = <Z extends ZodSchema>({
 }: UseZodFormProps<Z>) =>
   useForm({
     ...formProps,
-    // @ts-ignore
     resolver: zodResolver(schema),
   });
 

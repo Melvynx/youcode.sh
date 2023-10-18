@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { Loader } from '@/components/ui/loading';
 import { useMutation } from '@tanstack/react-query';
-import { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef } from '@tanstack/react-table';
 import { Menu, Settings } from 'lucide-react';
 import { useParams } from 'next/navigation';
 import { toast } from 'sonner';
@@ -35,7 +35,7 @@ export const columns: ColumnDef<User>[] = [
       <div className="flex items-center gap-2">
         <Avatar className="w-8 h-8">
           <AvatarFallback>
-            {(row.getValue('email') as string).charAt(0).toUpperCase() ?? '?'}
+            {(row.getValue('email') as string).charAt(0).toUpperCase()}
           </AvatarFallback>
           {row.getValue('image') ? (
             <AvatarImage src={row.getValue('image')} />

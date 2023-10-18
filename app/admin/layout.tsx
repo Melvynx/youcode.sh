@@ -1,5 +1,5 @@
 import { Breadcrumb } from '@/components/layout/Breadcrumb';
-import { PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
 
 export default function AdminLayout({ children }: PropsWithChildren) {
   return (

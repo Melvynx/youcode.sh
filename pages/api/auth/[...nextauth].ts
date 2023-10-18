@@ -1,7 +1,8 @@
 import { env } from '@/env.mjs';
 import { prisma } from '@/lib/prisma';
 import { PrismaAdapter } from '@auth/prisma-adapter';
-import NextAuth, { AuthOptions } from 'next-auth';
+import type { AuthOptions } from 'next-auth';
+import NextAuth from 'next-auth';
 import GithubProvider from 'next-auth/providers/github';
 
 export const authOptions: AuthOptions = {

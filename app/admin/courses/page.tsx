@@ -32,7 +32,7 @@ export default async function page() {
 
   const courses = await prisma.course.findMany({
     where: {
-      creatorId: session?.user?.id,
+      creatorId: session?.user.id,
     },
   });
 

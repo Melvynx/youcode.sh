@@ -6,7 +6,7 @@ import { PromotionBanner } from '@/features/nextreact/PromotionBanner';
 import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
-import { PropsWithChildren, ReactNode } from 'react';
+import type { PropsWithChildren, ReactNode } from 'react';
 import { Providers } from './Providers';
 import './code-theme.css';
 import './globals.css';

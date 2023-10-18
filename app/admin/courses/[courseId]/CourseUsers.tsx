@@ -1,5 +1,6 @@
 import { prisma } from '@/lib/prisma';
-import { User, columns } from './users/columns';
+import type { User} from './users/columns';
+import { columns } from './users/columns';
 import { DataTable } from './users/data-table';
 
 export const CourseUsers = async ({ courseId }: { courseId: string }) => {
