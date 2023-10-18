@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Card, CardHeader, CardTitle } from '@/components/ui/card';
 import type { ComponentType } from 'react';
 import type { ZodRawShape, z } from 'zod';
 
 export function withTypeSafeProps<T extends ZodRawShape>(
-  Component: ComponentType<unknown>,
+  Component: ComponentType<any>,
   schema: z.ZodObject<T>
 ) {
   const TypeSafeInnerComponent = (props: unknown) => {

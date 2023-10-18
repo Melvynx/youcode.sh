@@ -18,6 +18,7 @@ export const authOptions: AuthOptions = {
   ],
   callbacks: {
     session({ session, user }) {
+      if (!session.user) return session;
       session.user.id = user.id;
       session.user.image = user.image;
       return session;
