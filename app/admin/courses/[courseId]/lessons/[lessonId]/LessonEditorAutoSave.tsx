@@ -1,6 +1,6 @@
 'use client';
 
-import Editor from '@/components/features/mdx/MdxEditor';
+import Editor from '@/features/mdx/MdxEditor';
 import { useDebounceFn } from '@/hooks/useDebounceFn';
 import { useEffect, useRef } from 'react';
 import { toast } from 'sonner';

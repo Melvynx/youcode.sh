@@ -1,6 +1,6 @@
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Loader } from '@/components/ui/loading';
-import { prisma } from '@/db/prisma';
+import { prisma } from '@/lib/prisma';
 import { Suspense } from 'react';
 import { LessonEditorAutoSave } from './LessonEditorAutoSave';
 import { LessonForm } from './LessonForm';

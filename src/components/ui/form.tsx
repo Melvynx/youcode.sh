@@ -12,7 +12,7 @@ import type {
 } from 'react-hook-form';
 import { Controller, FormProvider, useForm, useFormContext } from 'react-hook-form';
 import type { TypeOf, ZodSchema } from 'zod';
-import { cn } from '../lib/utils';
+import { cn } from '../../lib/utils';
 import { Label } from './label';
 
 type FormProps<T extends FieldValues> = Omit<

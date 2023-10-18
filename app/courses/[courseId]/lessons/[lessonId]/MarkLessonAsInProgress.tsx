@@ -1,5 +1,5 @@
-import { getAuthSession } from '@/auth/next-auth';
-import { prisma } from '@/db/prisma';
+import { getAuthSession } from '@/lib/next-auth';
+import { prisma } from '@/lib/prisma';
 
 export const MarkLessonAsInProgress = async ({ lessonId }: { lessonId: string }) => {
   const session = await getAuthSession();

@@ -1,4 +1,4 @@
-import { prisma } from '@/db/prisma';
+import { prisma } from '@/lib/prisma';
 import { User, columns } from './users/columns';
 import { DataTable } from './users/data-table';
 

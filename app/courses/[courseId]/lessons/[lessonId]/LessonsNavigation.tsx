@@ -1,4 +1,4 @@
-import { getAuthSession } from '@/auth/next-auth';
+import { getAuthSession } from '@/lib/next-auth';
 import { LessonsNavigationMenu } from './LessonsNavigationMenu';
 import { getLessons } from './lesson.query';
 

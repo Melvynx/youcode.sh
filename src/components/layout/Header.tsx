@@ -1,8 +1,8 @@
 import { SiteConfig } from '@/config';
 import Image from 'next/image';
 import Link from 'next/link';
+import { AuthButton } from '../../features/auth/AuthButton';
 import { ThemeToggle } from '../ThemeToggle';
-import { AuthButton } from '../features/auth/AuthButton';
 import { Typography } from '../ui/Typography';
 
 export function Header() {

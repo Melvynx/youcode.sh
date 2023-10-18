@@ -5,7 +5,7 @@ import {
   LayoutTitle,
 } from '@/components/layout/layout';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { prisma } from '@/db/prisma';
+import { prisma } from '@/lib/prisma';
 import { CourseForm } from './CourseForm';
 
 export default async function page({

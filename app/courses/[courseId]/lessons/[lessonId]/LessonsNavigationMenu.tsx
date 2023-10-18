@@ -1,27 +1,18 @@
 'use client';
 
-import { cn } from '@/components/lib/utils';
 import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
-import { Progress } from '@prisma/client';
-import {
-  CheckCircle,
-  ChevronLeft,
-  Circle,
-  CircleDashed,
-  Menu,
-  PanelLeftClose,
-  PanelLeftOpen,
-} from 'lucide-react';
+import { cn } from '@/lib/utils';
+import { ChevronLeft, Menu, PanelLeftClose, PanelLeftOpen } from 'lucide-react';
 import Link from 'next/link';
 import { useParams } from 'next/navigation';
 import {
   useLessonNavigation,
   useLessonNavigationState,
 } from './LessonsNavigationStore';
-import { LessonsType } from './lesson.query';
 import { getIconByProgress } from './getIconByProgress';
+import { LessonsType } from './lesson.query';
 
 export const LessonsNavigationMenu = ({
   lessons,

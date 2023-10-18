@@ -1,7 +1,7 @@
 'use server';
 
-import { authenticatedAction } from '@/components/lib/safe-actions';
-import { prisma } from '@/db/prisma';
+import { prisma } from '@/lib/prisma';
+import { authenticatedAction } from '@/lib/safe-actions';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 import { CourseFormSchema } from './course-form.schema';

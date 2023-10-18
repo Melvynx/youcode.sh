@@ -1,8 +1,8 @@
 import { TailwindIndicator } from '@/components/TailwindIndicator';
 import { Header } from '@/components/layout/Header';
-import { cn } from '@/components/lib/utils';
-import { PromotionBanner } from '@/components/nextreact/PromotionBanner';
 import { SiteConfig } from '@/config';
+import { PromotionBanner } from '@/features/nextreact/PromotionBanner';
+import { cn } from '@/lib/utils';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import { PropsWithChildren, ReactNode } from 'react';

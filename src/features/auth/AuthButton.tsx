@@ -1,4 +1,4 @@
-import { getAuthSession } from '@/auth/next-auth';
+import { getAuthSession } from '@/lib/next-auth';
 import { LoggedInButton } from './LoggedInButton';
 import { LoginButton } from './LoginButton';
 

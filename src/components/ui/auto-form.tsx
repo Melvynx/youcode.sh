@@ -18,7 +18,7 @@ import {
   useForm,
 } from 'react-hook-form';
 import { z } from 'zod';
-import { cn } from '../lib/utils';
+import { cn } from '../../lib/utils';
 import {
   Accordion,
   AccordionContent,

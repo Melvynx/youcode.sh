@@ -1,11 +1,9 @@
-import { getAuthSession } from '@/auth/next-auth';
 import {
   Layout,
   LayoutContent,
   LayoutHeader,
   LayoutTitle,
 } from '@/components/layout/layout';
-import { cn } from '@/components/lib/utils';
 import { buttonVariants } from '@/components/ui/button';
 import {
   Card,
@@ -15,7 +13,9 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import { Loader } from '@/components/ui/loading';
-import { prisma } from '@/db/prisma';
+import { getAuthSession } from '@/lib/next-auth';
+import { prisma } from '@/lib/prisma';
+import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Suspense } from 'react';

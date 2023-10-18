@@ -1,8 +1,8 @@
 'use server';
 
-import { authenticatedAction } from '@/components/lib/safe-actions';
-import { prisma } from '@/db/prisma';
 import Video from '@/lib/mux';
+import { prisma } from '@/lib/prisma';
+import { authenticatedAction } from '@/lib/safe-actions';
 import { z } from 'zod';
 
 export const createUpload = async () => {

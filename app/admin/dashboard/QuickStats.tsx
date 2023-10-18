@@ -1,7 +1,7 @@
-import { getAuthSession } from '@/auth/next-auth';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Typography } from '@/components/ui/Typography';
-import { prisma } from '@/db/prisma';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { getAuthSession } from '@/lib/next-auth';
+import { prisma } from '@/lib/prisma';
 
 export const QuickStats = async () => {
   const session = await getAuthSession();

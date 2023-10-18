@@ -1,4 +1,4 @@
-import { prisma } from '@/db/prisma';
+import { prisma } from '@/lib/prisma';
 
 export const getExploreCourses = async () => {
   const courses = await prisma.course.findMany({

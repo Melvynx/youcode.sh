@@ -1,6 +1,6 @@
 import { env } from '@/env.mjs';
 import Link from 'next/link';
-import { Typography } from '../ui/Typography';
+import { Typography } from '../../components/ui/Typography';
 
 export const PromotionBanner = () => {
   if (env.NODE_ENV !== 'production') {

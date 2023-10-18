@@ -1,4 +1,3 @@
-import { getAuthSession } from '@/auth/next-auth';
 import {
   Layout,
   LayoutActions,
@@ -22,8 +21,9 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { prisma } from '@/db/prisma';
 import { formatPrice } from '@/lib/formatPrice';
+import { getAuthSession } from '@/lib/next-auth';
+import { prisma } from '@/lib/prisma';
 import { Menu } from 'lucide-react';
 import Link from 'next/link';
 

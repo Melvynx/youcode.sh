@@ -1,7 +1,7 @@
 'use server';
 
-import { ActionError, authenticatedAction } from '@/components/lib/safe-actions';
-import { prisma } from '@/db/prisma';
+import { prisma } from '@/lib/prisma';
+import { ActionError, authenticatedAction } from '@/lib/safe-actions';
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
 

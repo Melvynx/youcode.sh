@@ -1,5 +1,3 @@
-import { getRequiredAuthSession } from '@/auth/next-auth';
-import { LogoutButton } from '@/components/features/auth/LogoutButton';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { buttonVariants } from '@/components/ui/button';
 import {
@@ -10,6 +8,8 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { LogoutButton } from '@/features/auth/LogoutButton';
+import { getRequiredAuthSession } from '@/lib/next-auth';
 import Link from 'next/link';
 
 export default async function page() {

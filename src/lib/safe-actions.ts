@@ -1,4 +1,4 @@
-import { getAuthSession } from '@/auth/next-auth';
+import { getAuthSession } from '@/lib/next-auth';
 import { createSafeActionClient } from 'next-safe-action';
 
 /**

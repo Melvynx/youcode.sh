@@ -1,4 +1,4 @@
-import { prisma } from '@/db/prisma';
+import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 
 export const getCourses = async (userId: string) => {

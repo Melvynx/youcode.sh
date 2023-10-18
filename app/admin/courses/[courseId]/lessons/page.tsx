@@ -6,7 +6,7 @@ import {
 } from '@/components/layout/layout';
 import { ButtonWithLoadingState } from '@/components/rsc/ButtonWithLoadingState';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { prisma } from '@/db/prisma';
+import { prisma } from '@/lib/prisma';
 import { Prisma } from '@prisma/client';
 import { Lessons } from './Lessons';
 import { newLessonAction } from './[lessonId]/lesson.action';

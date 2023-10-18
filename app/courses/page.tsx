@@ -1,10 +1,10 @@
-import { getRequiredAuthSession } from '@/auth/next-auth';
 import {
   Layout,
   LayoutContent,
   LayoutHeader,
   LayoutTitle,
 } from '@/components/layout/layout';
+import { getRequiredAuthSession } from '@/lib/next-auth';
 import { CourseCard } from './CourseCard';
 import { getCourses } from './courses.query';
 

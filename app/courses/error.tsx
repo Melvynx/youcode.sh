@@ -1,6 +1,5 @@
 'use client'; // Error components must be Client Components
 
-import { LoginButton } from '@/components/features/auth/LoginButton';
 import {
   Card,
   CardDescription,
@@ -8,6 +7,7 @@ import {
   CardHeader,
   CardTitle,
 } from '@/components/ui/card';
+import { LoginButton } from '@/features/auth/LoginButton';
 import { useEffect } from 'react';
 
 export default function Error({ error }: { error: Error }) {
