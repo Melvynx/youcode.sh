@@ -11,6 +11,7 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
 import Link from 'next/link';
 import { Suspense } from 'react';
+import { NewUserStats } from './dashboard/NewUserStats';
 import { QuickStats } from './dashboard/QuickStats';
 
 export default function AdminPage() {
@@ -25,7 +26,7 @@ export default function AdminPage() {
           Courses
         </Link>
       </LayoutActions>
-      <LayoutContent>
+      <LayoutContent className="flex flex-col gap-4">
         <Suspense
           fallback={
             <Card>
@@ -40,6 +41,21 @@ export default function AdminPage() {
           }
         >
           <QuickStats />
+        </Suspense>
+
+        <Suspense
+          fallback={
+            <Card>
+              <CardHeader>
+                <Skeleton className="w-full h-8" />
+              </CardHeader>
+              <CardContent className="flex flex-col gap-1">
+                <Skeleton className="w-full h-32" />
+              </CardContent>
+            </Card>
+          }
+        >
+          <NewUserStats />
         </Suspense>
       </LayoutContent>
     </Layout>

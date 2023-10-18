@@ -17,7 +17,7 @@ import { LessonState } from '@prisma/client';
 import { useParams, useRouter } from 'next/navigation';
 import { toast } from 'sonner';
 import { CourseFormSchema } from './course-form.schema';
-import { editCourse } from './course.action';
+import { createCourse, editCourse } from './course.action';
 
 export const CourseForm = (props: { course: CourseFormSchema | undefined }) => {
   const params = useParams();
@@ -39,10 +39,12 @@ export const CourseForm = (props: { course: CourseFormSchema | undefined }) => {
       form={form}
       className="flex flex-col gap-4"
       onSubmit={async (values) => {
-        const { data, serverError } = await editCourse({
-          id: courseId,
-          data: values,
-        });
+        const { data, serverError } = props.course
+          ? await editCourse({
+              id: courseId,
+              data: values,
+            })
+          : await createCourse(values);
 
         if (serverError) {
           toast.error(serverError);
@@ -50,7 +52,7 @@ export const CourseForm = (props: { course: CourseFormSchema | undefined }) => {
         }
 
         router.push(`/admin/courses/${data?.id}`);
-        toast.success('Lesson updated');
+        toast.success(props.course ? 'Course edited' : 'Course created');
       }}
     >
       <FormField

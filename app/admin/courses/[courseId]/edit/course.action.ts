@@ -25,3 +25,20 @@ export const editCourse = authenticatedAction(
     return updatedCourse;
   }
 );
+
+export const createCourse = authenticatedAction(
+  CourseFormSchema,
+  async (data, { userId }) => {
+    const newCourse = await prisma.course.create({
+      data: {
+        ...data,
+        creatorId: userId,
+        price: 0,
+      },
+    });
+
+    revalidatePath(`/admin/courses/${newCourse.id}`);
+
+    return newCourse;
+  }
+);

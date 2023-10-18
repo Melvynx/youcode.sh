@@ -33,7 +33,7 @@ export default async function page({
         <Card>
           <CardHeader>
             <CardTitle>
-              {isNew ? 'New' : 'Edit'} * {course?.name ?? '?'}
+              {isNew ? 'New' : 'Edit'} {course?.name ? `· ${course.name}` : ''}
             </CardTitle>
           </CardHeader>
           <CardContent>

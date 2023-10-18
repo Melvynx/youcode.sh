@@ -5,7 +5,7 @@ import {
   LayoutHeader,
   LayoutTitle,
 } from '@/components/layout/layout';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import {
   DropdownMenu,
@@ -42,7 +42,14 @@ export default async function page() {
         <LayoutTitle>Courses</LayoutTitle>
       </LayoutHeader>
       <LayoutActions>
-        <Button>Test</Button>
+        <Link
+          className={buttonVariants({
+            variant: 'secondary',
+          })}
+          href="/admin/courses/new/edit"
+        >
+          Create
+        </Link>
       </LayoutActions>
       <LayoutContent>
         <Card>
