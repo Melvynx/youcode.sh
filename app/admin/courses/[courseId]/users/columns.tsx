@@ -65,14 +65,16 @@ export const columns: ColumnDef<User>[] = [
       const courseId = String(params?.courseId);
       const userId = row.original.id;
 
-      const mutation = useMutation(async () => {
-        await updateUserOnCourseStatus({
-          courseId,
-          userId,
-          cancel: row.getValue('status') === 'active',
-        });
+      const mutation = useMutation({
+        mutationFn: async () => {
+          await updateUserOnCourseStatus({
+            courseId,
+            userId,
+            cancel: row.getValue('status') === 'active',
+          });
 
-        toast.success('User status updated');
+          toast.success('User status updated');
+        },
       });
 
       return (
@@ -92,7 +94,7 @@ export const columns: ColumnDef<User>[] = [
                   mutation.mutate();
                 }}
               >
-                {mutation.isLoading ? <Loader size={12} /> : <Settings size={12} />}
+                {mutation.isPending ? <Loader size={12} /> : <Settings size={12} />}
                 {row.getValue('status') === 'active' ? 'Cancel' : 'Activate'}
               </DropdownMenuItem>
             </DropdownMenuContent>

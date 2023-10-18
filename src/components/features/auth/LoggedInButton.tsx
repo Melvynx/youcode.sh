@@ -18,7 +18,9 @@ import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 
 export const LoggedInButton = ({ user }: { user: Session['user'] }) => {
-  const logout = useMutation(() => signOut());
+  const logout = useMutation({
+    mutationFn: () => signOut(),
+  });
 
   return (
     <DropdownMenu>
@@ -55,7 +57,7 @@ export const LoggedInButton = ({ user }: { user: Session['user'] }) => {
         </DropdownMenuItem>
         <DropdownMenuGroup>
           <DropdownMenuItem onClick={() => logout.mutate()}>
-            {logout.isLoading ? (
+            {logout.isPending ? (
               <Loader className="mr-2 h-4 w-4" />
             ) : (
               <LogOut className="mr-2 h-4 w-4" />

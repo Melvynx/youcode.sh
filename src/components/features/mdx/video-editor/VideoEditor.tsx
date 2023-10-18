@@ -111,7 +111,7 @@ export const MuxVideoEditor = ({ mdastNode, descriptor }: JsxEditorProps) => {
     );
   }
 
-  if (upload.isLoading || !data) {
+  if (upload.isPending || !data) {
     return (
       <Card className="not-prose">
         <CardHeader>

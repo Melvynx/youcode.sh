@@ -7,7 +7,7 @@ import { LogOut } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 
 export const LogoutButton = () => {
-  const logout = useMutation(() => signOut());
+  const logout = useMutation({ mutationFn: () => signOut() });
   return (
     <Button
       size="sm"
@@ -15,7 +15,7 @@ export const LogoutButton = () => {
         logout.mutate();
       }}
     >
-      {logout.isLoading ? (
+      {logout.isPending ? (
         <Loader className="mr-2 h-4 w-4" />
       ) : (
         <LogOut className="mr-2 h-4 w-4" />
