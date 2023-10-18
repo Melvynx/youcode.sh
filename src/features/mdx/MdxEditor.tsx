@@ -32,6 +32,7 @@ import {
   toolbarPlugin,
 } from '@mdxeditor/editor';
 import '@mdxeditor/editor/style.css';
+import { useTheme } from 'next-themes';
 import { FC } from 'react';
 import { MuxVideoEditor } from './video-editor/VideoEditor';
 
@@ -114,11 +115,13 @@ const Editor: FC<
     className?: string;
   }
 > = ({ markdown, editorRef, onChange, className }) => {
+  const theme = useTheme();
   return (
     <MDXEditor
-      className={cn(
-        'prose dark:prose-invert border-dashed border-2 border-muted max-w-none ',
-        className
+      className={cn('border-dashed border-2 border-muted max-w-none ', className)}
+      contentEditableClassName={cn(
+        'prose',
+        theme.theme === 'dark' ? 'prose-invert' : ''
       )}
       ref={editorRef}
       markdown={markdown}

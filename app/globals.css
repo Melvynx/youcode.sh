@@ -76,3 +76,7 @@ mux-uploader > * {
 mux-uploader-file-select {
   display: flex;
 }
+
+.prose-invert {
+  color: white !important;
+}
