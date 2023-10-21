@@ -1,9 +1,11 @@
 import { getAuthSession } from '@/lib/next-auth';
 import { Suspense } from 'react';
 import { Lesson } from './Lesson';
+import { LessonPlaceholder } from './LessonPlaceholder';
 import { LessonsNavigation } from './LessonsNavigation';
 import { MarkLessonAsInProgress } from './MarkLessonAsInProgress';
 import { getLesson } from './lesson.query';
+import { LessonNavigationMenuPlaceholder } from './placehlder/LessonNavigationMenuPlaceholder';
 
 export default async function page({
   params,
@@ -36,10 +38,10 @@ export default async function page({
         height: `calc(100vh - var(--header-height) - 1px)`,
       }}
     >
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LessonNavigationMenuPlaceholder />}>
         <LessonsNavigation courseId={params.courseId} />
       </Suspense>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LessonPlaceholder />}>
         <Lesson
           lessonId={lesson.id}
           content={lesson.content}
