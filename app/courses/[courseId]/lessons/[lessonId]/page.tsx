@@ -1,3 +1,4 @@
+import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { getAuthSession } from '@/lib/next-auth';
 import { Suspense } from 'react';
 import { Lesson } from './Lesson';
@@ -27,7 +28,16 @@ export default async function page({
 
   if (lesson.state === 'PUBLISHED') {
     if (lesson.course.users.length === 0) {
-      return 'You need to pay.';
+      return (
+        <Card>
+          <CardHeader>
+            <CardTitle>You need to join the course</CardTitle>
+            <CardDescription>
+              In order to access the lesson, you need to join the course.
+            </CardDescription>
+          </CardHeader>
+        </Card>
+      );
     }
   }
 
