@@ -8,14 +8,15 @@ import { MarkLessonAsInProgress } from './MarkLessonAsInProgress';
 import { getLesson } from './lesson.query';
 import { LessonNavigationMenuPlaceholder } from './placehlder/LessonNavigationMenuPlaceholder';
 
-export default async function page({
-  params,
-}: {
-  params: {
-    courseId: string;
-    lessonId: string;
-  };
-}) {
+export default async function page(
+  props: {
+    params: Promise<{
+      courseId: string;
+      lessonId: string;
+    }>;
+  }
+) {
+  const params = await props.params;
   const session = await getAuthSession();
   const lesson = await getLesson({
     lessonId: params.lessonId,

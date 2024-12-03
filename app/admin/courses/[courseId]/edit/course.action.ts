@@ -1,10 +1,10 @@
-'use server';
+"use server";
 
-import { prisma } from '@/lib/prisma';
-import { authenticatedAction } from '@/lib/safe-actions';
-import { revalidatePath } from 'next/cache';
-import { z } from 'zod';
-import { CourseFormSchema } from './course-form.schema';
+import { prisma } from "@/lib/prisma";
+import { authenticatedAction } from "@/lib/safe-actions";
+import { revalidatePath } from "next/cache";
+import { z } from "zod";
+import { CourseFormSchema } from "./course-form.schema";
 
 export const editCourse = authenticatedAction(
   z.object({
@@ -33,7 +33,6 @@ export const createCourse = authenticatedAction(
       data: {
         ...data,
         creatorId: userId,
-        price: 0,
       },
     });
 

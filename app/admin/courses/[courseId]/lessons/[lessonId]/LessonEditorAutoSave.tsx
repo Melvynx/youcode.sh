@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import Editor from '@/features/mdx/MdxEditor';
-import { useDebounceFn } from '@/hooks/useDebounceFn';
-import { useEffect, useRef } from 'react';
-import { toast } from 'sonner';
-import { editLessonContent } from './lesson.action';
+import Editor from "@/features/mdx/MdxEditor";
+import { useDebounceFn } from "@/hooks/useDebounceFn";
+import { useEffect, useRef } from "react";
+import { toast } from "sonner";
+import { editLessonContent } from "./lesson.action";
 
 export const LessonEditorAutoSave = ({
   markdown,
@@ -13,15 +13,16 @@ export const LessonEditorAutoSave = ({
   markdown: string;
   lessonId: string;
 }) => {
-  const lastSavedRef = useRef<string>();
-  const currentMdRef = useRef<string>();
+  const lastSavedRef = useRef<string>(undefined);
+  const currentMdRef = useRef<string>(undefined);
   const onChange = useDebounceFn((md: string) => {
     lastSavedRef.current = md;
+    console.log("saving", md);
     editLessonContent({
       id: lessonId,
       markdown: md,
     }).catch(() => {
-      toast.error('Failed to save lesson content');
+      toast.error("Failed to save lesson content");
     });
   }, 1000);
 
@@ -29,14 +30,14 @@ export const LessonEditorAutoSave = ({
     const beforeUnloadHandler = (e: BeforeUnloadEvent) => {
       if (lastSavedRef.current !== currentMdRef.current) {
         e.preventDefault();
-        e.returnValue = '';
+        e.returnValue = "";
       }
     };
 
-    window.addEventListener('beforeunload', beforeUnloadHandler);
+    window.addEventListener("beforeunload", beforeUnloadHandler);
 
     return () => {
-      window.removeEventListener('beforeunload', beforeUnloadHandler);
+      window.removeEventListener("beforeunload", beforeUnloadHandler);
     };
   }, []);
 
@@ -48,6 +49,7 @@ export const LessonEditorAutoSave = ({
         onChange={(s) => {
           currentMdRef.current = s;
           onChange(s);
+          console.log("MdxEditor change", s);
         }}
       />
     </div>

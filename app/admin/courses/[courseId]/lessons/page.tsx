@@ -3,13 +3,14 @@ import {
   LayoutContent,
   LayoutHeader,
   LayoutTitle,
-} from '@/components/layout/layout';
-import { ButtonWithLoadingState } from '@/components/rsc/ButtonWithLoadingState';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { prisma } from '@/lib/prisma';
-import type { Prisma } from '@prisma/client';
-import { Lessons } from './Lessons';
-import { newLessonAction } from './[lessonId]/lesson.action';
+} from "@/components/layout/layout";
+import { ButtonWithLoadingState } from "@/components/rsc/ButtonWithLoadingState";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { prisma } from "@/lib/prisma";
+import type { PageParams } from "@/types/next";
+import type { Prisma } from "@prisma/client";
+import { newLessonAction } from "./[lessonId]/lesson.action";
+import { Lessons } from "./Lessons";
 
 const getCourseLessons = async (courseId: string) => {
   return prisma.course.findFirstOrThrow({
@@ -23,7 +24,7 @@ const getCourseLessons = async (courseId: string) => {
 
       lessons: {
         orderBy: {
-          rank: 'asc',
+          rank: "asc",
         },
         select: {
           id: true,
@@ -38,15 +39,10 @@ const getCourseLessons = async (courseId: string) => {
 
 export type CourseLessons = Prisma.PromiseReturnType<
   typeof getCourseLessons
->['lessons'];
+>["lessons"];
 
-export default async function page({
-  params,
-}: {
-  params: {
-    courseId: string;
-  };
-}) {
+export default async function Page(props: PageParams<{ courseId: string }>) {
+  const params = await props.params;
   const course = await getCourseLessons(params.courseId);
 
   return (
@@ -68,7 +64,7 @@ export default async function page({
             <form>
               <ButtonWithLoadingState
                 formAction={async () => {
-                  'use server';
+                  "use server";
                   await newLessonAction({
                     courseId: course.id,
                   });

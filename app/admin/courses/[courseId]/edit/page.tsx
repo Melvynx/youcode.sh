@@ -3,19 +3,15 @@ import {
   LayoutContent,
   LayoutHeader,
   LayoutTitle,
-} from '@/components/layout/layout';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { prisma } from '@/lib/prisma';
-import { CourseForm } from './CourseForm';
+} from "@/components/layout/layout";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { prisma } from "@/lib/prisma";
+import type { PageParams } from "@/types/next";
+import { CourseForm } from "./CourseForm";
 
-export default async function page({
-  params,
-}: {
-  params: {
-    courseId: string;
-  };
-}) {
-  const isNew = params.courseId === 'new';
+export default async function Page(props: PageParams<{ courseId: string }>) {
+  const params = await props.params;
+  const isNew = params.courseId === "new";
   const course = isNew
     ? undefined
     : await prisma.course.findFirstOrThrow({
@@ -33,7 +29,7 @@ export default async function page({
         <Card>
           <CardHeader>
             <CardTitle>
-              {isNew ? 'New' : 'Edit'} {course?.name ? `· ${course.name}` : ''}
+              {isNew ? "New" : "Edit"} {course?.name ? `· ${course.name}` : ""}
             </CardTitle>
           </CardHeader>
           <CardContent>

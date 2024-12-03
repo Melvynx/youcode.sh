@@ -3,37 +3,34 @@ import {
   LayoutContent,
   LayoutHeader,
   LayoutTitle,
-} from '@/components/layout/layout';
-import { buttonVariants } from '@/components/ui/button';
+} from "@/components/layout/layout";
+import { buttonVariants } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardFooter,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
-import { Loader } from '@/components/ui/loading';
-import { getAuthSession } from '@/lib/next-auth';
-import { prisma } from '@/lib/prisma';
-import { cn } from '@/lib/utils';
-import Link from 'next/link';
-import { notFound } from 'next/navigation';
-import { Suspense } from 'react';
-import { CourseUsers } from './CourseUsers';
+} from "@/components/ui/card";
+import { Loader } from "@/components/ui/loading";
+import { getAuthSession } from "@/lib/next-auth";
+import { prisma } from "@/lib/prisma";
+import { cn } from "@/lib/utils";
+import Link from "next/link";
+import { notFound } from "next/navigation";
+import { Suspense } from "react";
+import { CourseUsers } from "./CourseUsers";
 
-export default async function page({
-  params,
-}: {
-  params: {
-    courseId: string;
-  };
-}) {
+import type { PageParams } from "@/types/next";
+
+export default async function Page(props: PageParams<{ courseId: string }>) {
+  const params = await props.params;
   const session = await getAuthSession();
 
   const course = await prisma.course.findFirst({
     where: {
       id: params.courseId,
-      creatorId: session?.user.id ?? 'error',
+      creatorId: session?.user.id ?? "error",
     },
     select: {
       id: true,
@@ -84,14 +81,14 @@ export default async function page({
           <CardFooter className="flex flex-col gap-1">
             <Link
               href={`/admin/courses/${course.id}/lessons`}
-              className={cn(buttonVariants({ variant: 'outline' }), 'w-full')}
+              className={cn(buttonVariants({ variant: "outline" }), "w-full")}
             >
               Edit lessons
             </Link>
 
             <Link
               href={`/admin/courses/${course.id}/edit`}
-              className={cn(buttonVariants({ variant: 'outline' }), 'w-full')}
+              className={cn(buttonVariants({ variant: "outline" }), "w-full")}
             >
               Edit details
             </Link>

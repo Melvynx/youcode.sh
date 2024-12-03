@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { experimental_useFormStatus as useFormStatus } from 'react-dom';
-import type { ButtonProps } from '../ui/button';
-import { Button } from '../ui/button';
+import { useFormStatus } from "react-dom";
+import type { ButtonProps } from "../ui/button";
+import { Button } from "../ui/button";
 
 export const ButtonWithLoadingState = (props: ButtonProps) => {
   const { pending } = useFormStatus();

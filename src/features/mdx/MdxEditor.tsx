@@ -1,11 +1,12 @@
-'use client';
+"use client";
 
-import { Separator } from '@/components/ui/separator';
-import { cn } from '@/lib/utils';
+import { Separator } from "@/components/ui/separator";
+import { cn } from "@/lib/utils";
 import type {
   JsxComponentDescriptor,
   MDXEditorMethods,
-  SandpackConfig} from '@mdxeditor/editor';
+  SandpackConfig,
+} from "@mdxeditor/editor";
 import {
   BoldItalicUnderlineToggles,
   Button,
@@ -31,16 +32,16 @@ import {
   quotePlugin,
   sandpackPlugin,
   toolbarPlugin,
-} from '@mdxeditor/editor';
-import '@mdxeditor/editor/style.css';
-import { useTheme } from 'next-themes';
-import type { FC } from 'react';
-import { MuxVideoEditor } from './video-editor/VideoEditor';
+} from "@mdxeditor/editor";
+import "@mdxeditor/editor/style.css";
+import { useTheme } from "next-themes";
+import type { FC } from "react";
+import { MuxVideoEditor } from "./video-editor/VideoEditor";
 
 type EditorProps = {
   markdown: string;
   editorRef?: React.MutableRefObject<MDXEditorMethods | null>;
-}
+};
 
 const defaultSnippetContent = `
 export default function App() {
@@ -54,26 +55,26 @@ export default function App() {
 `.trim();
 
 const simpleSandpackConfig: SandpackConfig = {
-  defaultPreset: 'react',
+  defaultPreset: "react",
   presets: [
     {
-      label: 'React',
-      name: 'react',
-      meta: 'live react',
-      sandpackTemplate: 'react',
-      sandpackTheme: 'light',
-      snippetFileName: '/App.js',
-      snippetLanguage: 'jsx',
+      label: "React",
+      name: "react",
+      meta: "live react",
+      sandpackTemplate: "react",
+      sandpackTheme: "light",
+      snippetFileName: "/App.js",
+      snippetLanguage: "jsx",
       initialSnippetContent: defaultSnippetContent,
     },
     {
-      label: 'Vanilla',
-      name: 'vanilla',
-      meta: 'live vanilla',
-      sandpackTheme: 'auto',
-      sandpackTemplate: 'vanilla',
-      snippetFileName: '/index.js',
-      snippetLanguage: 'js',
+      label: "Vanilla",
+      name: "vanilla",
+      meta: "live vanilla",
+      sandpackTheme: "auto",
+      sandpackTemplate: "vanilla",
+      snippetFileName: "/index.js",
+      snippetLanguage: "js",
       initialSnippetContent: `console.log('Hello world')`,
     },
   ],
@@ -81,23 +82,23 @@ const simpleSandpackConfig: SandpackConfig = {
 
 const jsxComponentDescriptors: JsxComponentDescriptor[] = [
   {
-    name: 'MuxVideo',
-    kind: 'flow',
-    props: [{ name: 'id', type: 'string' }],
+    name: "MuxVideo",
+    kind: "flow",
+    props: [{ name: "id", type: "string" }],
     hasChildren: false,
     Editor: MuxVideoEditor,
   },
 ];
 
 const InsertVideo = () => {
-  const insertJsx = jsxPluginHooks.usePublisher('insertJsx');
+  const insertJsx = jsxPluginHooks.usePublisher("insertJsx");
   return (
     <Button
       onClick={() =>
         insertJsx({
-          name: 'MuxVideo',
-          kind: 'flow',
-          props: { url: '' },
+          name: "MuxVideo",
+          kind: "flow",
+          props: { url: "" },
         })
       }
     >
@@ -119,14 +120,20 @@ const Editor: FC<
   const theme = useTheme();
   return (
     <MDXEditor
-      className={cn('border-dashed border-2 border-muted max-w-none ', className)}
+      className={cn(
+        "border-dashed border-2 border-muted max-w-none ",
+        className
+      )}
       contentEditableClassName={cn(
-        'prose',
-        theme.theme === 'dark' ? 'prose-invert' : ''
+        `prose bg-red-500 ${theme.theme}`,
+        theme.theme === "dark" ? "prose-invert" : ""
       )}
       ref={editorRef}
       markdown={markdown}
-      onChange={onChange}
+      onChange={(s) => {
+        console.log("ON change !!!");
+        onChange(s);
+      }}
       // readOnly={true}
       plugins={[
         headingsPlugin(),
@@ -136,13 +143,15 @@ const Editor: FC<
         jsxPlugin({ jsxComponentDescriptors }),
         markdownShortcutPlugin(),
         listsPlugin(),
-        codeBlockPlugin({ defaultCodeBlockLanguage: 'js' }),
+        codeBlockPlugin({ defaultCodeBlockLanguage: "js" }),
         sandpackPlugin({ sandpackConfig: simpleSandpackConfig }),
-        codeMirrorPlugin({ codeBlockLanguages: { js: 'JavaScript', css: 'CSS' } }),
+        codeMirrorPlugin({
+          codeBlockLanguages: { js: "JavaScript", css: "CSS" },
+        }),
         diffSourcePlugin(),
         toolbarPlugin({
           toolbarContents: () => (
-            <div className={cn('flex items-center gap-2')}>
+            <div className={cn("flex items-center gap-2")}>
               <UndoRedo />
               <Separator orientation="vertical" className="h-6" />
               <BoldItalicUnderlineToggles />
@@ -157,11 +166,11 @@ const Editor: FC<
               <ConditionalContents
                 options={[
                   {
-                    when: (editor) => editor?.editorType === 'codeblock',
+                    when: (editor) => editor?.editorType === "codeblock",
                     contents: () => <ChangeCodeMirrorLanguage />,
                   },
                   {
-                    when: (editor) => editor?.editorType === 'sandpack',
+                    when: (editor) => editor?.editorType === "sandpack",
                     contents: () => (
                       <>
                         <ShowSandpackInfo />

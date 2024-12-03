@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from "@prisma/client";
 
-import { faker } from '@faker-js/faker';
+import { faker } from "@faker-js/faker";
 
 const prisma = new PrismaClient();
 
@@ -21,7 +21,6 @@ const main = async () => {
               name: faker.lorem.words(3),
               createdAt: faker.date.past(),
               presentation: faker.lorem.paragraph(),
-              price: faker.number.float({ min: 0, max: 1000 }),
               image: faker.image.url(),
               lessons: {
                 createMany: {
@@ -29,12 +28,12 @@ const main = async () => {
                     {
                       name: faker.lorem.words(3),
                       content: faker.lorem.paragraph(),
-                      rank: 'aaaaaa',
+                      rank: "aaaaaa",
                     },
                     {
                       name: faker.lorem.words(3),
                       content: faker.lorem.paragraph(),
-                      rank: 'aaaaab',
+                      rank: "aaaaab",
                     },
                   ],
                 },

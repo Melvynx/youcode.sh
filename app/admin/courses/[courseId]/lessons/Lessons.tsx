@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { Typography } from '@/components/ui/Typography';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import type { DragEndEvent } from '@dnd-kit/core';
+import { Typography } from "@/components/ui/Typography";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import type { DragEndEvent } from "@dnd-kit/core";
 import {
   DndContext,
   KeyboardSensor,
@@ -11,21 +11,21 @@ import {
   closestCenter,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 import {
   SortableContext,
   arrayMove,
   sortableKeyboardCoordinates,
   useSortable,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { Menu } from 'lucide-react';
-import Link from 'next/link';
-import { useState } from 'react';
-import { toast } from 'sonner';
-import { saveLessonMove } from './[lessonId]/lesson.action';
-import type { CourseLessons } from './page';
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { Menu } from "lucide-react";
+import Link from "next/link";
+import { useState } from "react";
+import { toast } from "sonner";
+import { saveLessonMove } from "./[lessonId]/lesson.action";
+import type { CourseLessons } from "./page";
 
 export const Lessons = ({
   lessons: defaultLessons,
@@ -45,8 +45,6 @@ export const Lessons = ({
 
   function handleDragEnd(event: DragEndEvent) {
     const { active, over } = event;
-
-    console.log('CALL ONE TIME');
 
     if (active.id !== over?.id) {
       // setLessons callback is called twice
@@ -71,7 +69,7 @@ export const Lessons = ({
         }).then(({ data }) => {
           if (!data) {
             setLessons(items);
-            toast.error('An error occurred while moving the lesson');
+            toast.error("An error occurred while moving the lesson");
           }
         });
 
@@ -104,9 +102,10 @@ const SortableItem = ({
   courseId: string;
   lesson: CourseLessons[0];
 }) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
-    id: lesson.id,
-  });
+  const { attributes, listeners, setNodeRef, transform, transition } =
+    useSortable({
+      id: lesson.id,
+    });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -132,7 +131,12 @@ const SortableItem = ({
           e.stopPropagation();
         }}
       >
-        <Button variant="ghost" className="cursor-move" size="sm" {...listeners}>
+        <Button
+          variant="ghost"
+          className="cursor-move"
+          size="sm"
+          {...listeners}
+        >
           <Menu size={12} />
         </Button>
       </div>

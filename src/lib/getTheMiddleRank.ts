@@ -44,9 +44,6 @@ export const getTheMiddleRank = (
 
   const nextChar = getNextChar(upsideRank[indexToChange], 1);
 
-  return (
-    upsideRank.slice(0, indexToChange) +
-    nextChar +
-    upsideRank.slice(indexToChange + 1).replace(/./g, CONTROL_VALUE)
-  );
+  return (upsideRank.slice(0, indexToChange) +
+  nextChar + upsideRank.slice(indexToChange + 1).replace(/./g, CONTROL_VALUE));
 };

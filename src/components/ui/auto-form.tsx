@@ -1,33 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unnecessary-condition */
-'use client';
+"use client";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Plus, Trash } from 'lucide-react';
-import React from 'react';
+} from "@/components/ui/select";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Plus, Trash } from "lucide-react";
+import React from "react";
 import type {
   ControllerRenderProps,
   DefaultValues,
   FieldValues,
-} from 'react-hook-form';
-import { FormProvider, useFieldArray, useForm } from 'react-hook-form';
-import type { z } from 'zod';
-import { cn } from '../../lib/utils';
+} from "react-hook-form";
+import { FormProvider, useFieldArray, useForm } from "react-hook-form";
+import type { z } from "zod";
+import { cn } from "../../lib/utils";
 import {
   Accordion,
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from './accordion';
-import { Button } from './button';
-import { Checkbox } from './checkbox';
-import { DatePicker } from './date-picker';
+} from "./accordion";
+import { Button } from "./button";
+import { Checkbox } from "./checkbox";
+import { DatePicker } from "./date-picker";
 import {
   FormControl,
   FormDescription,
@@ -35,19 +35,19 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from './form';
-import { Input } from './input';
-import { RadioGroup, RadioGroupItem } from './radio-group';
-import { Separator } from './separator';
-import { Switch } from './switch';
-import { Textarea } from './textarea';
+} from "./form";
+import { Input } from "./input";
+import { RadioGroup, RadioGroupItem } from "./radio-group";
+import { Separator } from "./separator";
+import { Switch } from "./switch";
+import { Textarea } from "./textarea";
 
 /**
  * Beautify a camelCase string.
  * e.g. "myString" -> "My String"
  */
 function beautifyObjectName(string: string) {
-  let output = string.replace(/([A-Z])/g, ' $1');
+  let output = string.replace(/([A-Z])/g, " $1");
   output = output.charAt(0).toUpperCase() + output.slice(1);
   return output;
 }
@@ -57,10 +57,10 @@ function beautifyObjectName(string: string) {
  * This will unpack optionals, refinements, etc.
  */
 function getBaseSchema(schema: z.ZodAny | z.ZodEffects<z.ZodAny>): z.ZodAny {
-  if ('innerType' in schema._def) {
+  if ("innerType" in schema._def) {
     return getBaseSchema(schema._def.innerType as z.ZodAny);
   }
-  if ('schema' in schema._def) {
+  if ("schema" in schema._def) {
     return getBaseSchema(schema._def.schema as z.ZodAny);
   }
   return schema as z.ZodAny;
@@ -78,19 +78,23 @@ function getBaseType(schema: z.ZodAny): string {
  * Search for a "ZodDefult" in the Zod stack and return its value.
  */
 function getDefaultValueInZodStack(schema: z.ZodAny): any {
-  const typedSchema = schema as unknown as z.ZodDefault<z.ZodNumber | z.ZodString>;
+  const typedSchema = schema as unknown as z.ZodDefault<
+    z.ZodNumber | z.ZodString
+  >;
 
-  if (typedSchema._def.typeName === 'ZodDefault') {
+  if (typedSchema._def.typeName === "ZodDefault") {
     return typedSchema._def.defaultValue();
   }
 
-  if ('innerType' in typedSchema._def) {
+  if ("innerType" in typedSchema._def) {
     return getDefaultValueInZodStack(
       typedSchema._def.innerType as unknown as z.ZodAny
     );
   }
-  if ('schema' in typedSchema._def) {
-    return getDefaultValueInZodStack((typedSchema._def as any).schema as z.ZodAny);
+  if ("schema" in typedSchema._def) {
+    return getDefaultValueInZodStack(
+      (typedSchema._def as any).schema as z.ZodAny
+    );
   }
   return undefined;
 }
@@ -98,7 +102,9 @@ function getDefaultValueInZodStack(schema: z.ZodAny): any {
 /**
  * Get all default values from a Zod schema.
  */
-function getDefaultValues<Schema extends z.ZodObject<any, any>>(schema: Schema) {
+function getDefaultValues<Schema extends z.ZodObject<any, any>>(
+  schema: Schema
+) {
   const { shape } = schema;
   type DefaultValuesType = DefaultValues<Partial<z.infer<Schema>>>;
   const defaultValues = {} as DefaultValuesType;
@@ -106,7 +112,7 @@ function getDefaultValues<Schema extends z.ZodObject<any, any>>(schema: Schema) 
   for (const key of Object.keys(shape)) {
     const item = shape[key] as z.ZodAny;
 
-    if (getBaseType(item) === 'ZodObject') {
+    if (getBaseType(item) === "ZodObject") {
       const defaultItems = getDefaultValues(
         item as unknown as z.ZodObject<any, any>
       );
@@ -125,8 +131,10 @@ function getDefaultValues<Schema extends z.ZodObject<any, any>>(schema: Schema) 
   return defaultValues;
 }
 
-function getObjectFormSchema(schema: ZodObjectOrWrapped): z.ZodObject<any, any> {
-  if (schema._def.typeName === 'ZodEffects') {
+function getObjectFormSchema(
+  schema: ZodObjectOrWrapped
+): z.ZodObject<any, any> {
+  if (schema._def.typeName === "ZodEffects") {
     const typedSchema = schema as z.ZodEffects<z.ZodObject<any, any>>;
     return getObjectFormSchema(typedSchema._def.schema);
   }
@@ -138,9 +146,13 @@ function getObjectFormSchema(schema: ZodObjectOrWrapped): z.ZodObject<any, any> 
  * Once submitted, the schema will be validated completely.
  */
 function zodToHtmlInputProps(
-  schema: z.ZodNumber | z.ZodString | z.ZodOptional<z.ZodNumber | z.ZodString> | any
+  schema:
+    | z.ZodNumber
+    | z.ZodString
+    | z.ZodOptional<z.ZodNumber | z.ZodString>
+    | any
 ): React.InputHTMLAttributes<HTMLInputElement> {
-  if (['ZodOptional', 'ZodNullable'].includes(schema._def.typeName)) {
+  if (["ZodOptional", "ZodNullable"].includes(schema._def.typeName)) {
     const typedSchema = schema as z.ZodOptional<z.ZodNumber | z.ZodString>;
     return {
       ...zodToHtmlInputProps(typedSchema._def.innerType),
@@ -150,7 +162,7 @@ function zodToHtmlInputProps(
 
   const typedSchema = schema as z.ZodNumber | z.ZodString;
 
-  if (!('checks' in typedSchema._def)) return {};
+  if (!("checks" in typedSchema._def)) return {};
 
   const { checks } = typedSchema._def;
   const inputProps: React.InputHTMLAttributes<HTMLInputElement> = {
@@ -159,15 +171,15 @@ function zodToHtmlInputProps(
   const type = getBaseType(schema);
 
   for (const check of checks) {
-    if (check.kind === 'min') {
-      if (type === 'ZodString') {
+    if (check.kind === "min") {
+      if (type === "ZodString") {
         inputProps.minLength = check.value;
       } else {
         inputProps.min = check.value;
       }
     }
-    if (check.kind === 'max') {
-      if (type === 'ZodString') {
+    if (check.kind === "max") {
+      if (type === "ZodString") {
         inputProps.maxLength = check.value;
       } else {
         inputProps.max = check.value;
@@ -183,9 +195,14 @@ export type FieldConfigItem = {
   inputProps?: React.InputHTMLAttributes<HTMLInputElement> & {
     showLabel?: boolean;
   };
-  fieldType?: keyof typeof INPUT_COMPONENTS | React.FC<AutoFormInputComponentProps>;
+  fieldType?:
+    | keyof typeof INPUT_COMPONENTS
+    | React.FC<AutoFormInputComponentProps>;
 
-  renderParent?: (props: { children: React.ReactNode }) => React.ReactElement | null;
+  // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-arguments
+  renderParent?: (props: {
+    children: React.ReactNode;
+  }) => React.ReactElement | null;
 };
 
 export type FieldConfig<SchemaType extends z.infer<z.ZodObject<any, any>>> = {
@@ -239,7 +256,7 @@ function AutoFormNumber({ fieldProps, ...props }: AutoFormInputComponentProps) {
   return (
     <AutoFormInput
       fieldProps={{
-        type: 'number',
+        type: "number",
         ...fieldProps,
       }}
       {...props}
@@ -351,7 +368,10 @@ function AutoFormRadioGroup({
           {...fieldProps}
         >
           {values.map((value: any) => (
-            <FormItem className="flex items-center space-x-3 space-y-0" key={value}>
+            <FormItem
+              className="flex items-center space-x-3 space-y-0"
+              key={value}
+            >
               <FormControl>
                 <RadioGroupItem value={value} />
               </FormControl>
@@ -379,7 +399,11 @@ function AutoFormDate({
         {isRequired && <span className="text-destructive"> *</span>}
       </FormLabel>
       <FormControl>
-        <DatePicker date={field.value} setDate={field.onChange} {...fieldProps} />
+        <DatePicker
+          date={field.value}
+          setDate={field.onChange}
+          {...fieldProps}
+        />
       </FormControl>
       {fieldConfigItem.description && (
         <FormDescription>{fieldConfigItem.description}</FormDescription>
@@ -423,7 +447,7 @@ function AutoFormEnum({
               className="w-full"
               placeholder={fieldConfigItem.inputProps?.placeholder}
             >
-              {field.value ? findItem(field.value)?.[1] : 'Select an option'}
+              {field.value ? findItem(field.value)?.[1] : "Select an option"}
             </SelectValue>
           </SelectTrigger>
           <SelectContent>
@@ -461,11 +485,11 @@ const INPUT_COMPONENTS = {
 const DEFAULT_ZOD_HANDLERS: {
   [key: string]: keyof typeof INPUT_COMPONENTS;
 } = {
-  ZodBoolean: 'checkbox',
-  ZodDate: 'date',
-  ZodEnum: 'select',
-  ZodNativeEnum: 'select',
-  ZodNumber: 'number',
+  ZodBoolean: "checkbox",
+  ZodDate: "date",
+  ZodEnum: "select",
+  ZodNativeEnum: "select",
+  ZodNumber: "number",
 };
 
 function DefaultParent({ children }: { children: React.ReactNode }) {
@@ -491,9 +515,9 @@ function AutoFormObject<SchemaType extends z.ZodObject<any, any>>({
         const item = shape[name] as z.ZodAny;
         const zodBaseType = getBaseType(item);
         const itemName = item._def.description ?? beautifyObjectName(name);
-        const key = [...path, name].join('.');
+        const key = [...path, name].join(".");
 
-        if (zodBaseType === 'ZodObject') {
+        if (zodBaseType === "ZodObject") {
           return (
             <AccordionItem value={name} key={key}>
               <AccordionTrigger>{itemName}</AccordionTrigger>
@@ -502,7 +526,9 @@ function AutoFormObject<SchemaType extends z.ZodObject<any, any>>({
                   schema={item as unknown as z.ZodObject<any, any>}
                   form={form}
                   fieldConfig={
-                    (fieldConfig?.[name] ?? {}) as FieldConfig<z.infer<typeof item>>
+                    (fieldConfig?.[name] ?? {}) as FieldConfig<
+                      z.infer<typeof item>
+                    >
                   }
                   path={[...path, name]}
                 />
@@ -510,7 +536,7 @@ function AutoFormObject<SchemaType extends z.ZodObject<any, any>>({
             </AccordionItem>
           );
         }
-        if (zodBaseType === 'ZodArray') {
+        if (zodBaseType === "ZodArray") {
           return (
             <AutoFormArray
               key={key}
@@ -525,7 +551,9 @@ function AutoFormObject<SchemaType extends z.ZodObject<any, any>>({
         const fieldConfigItem: FieldConfigItem = fieldConfig?.[name] ?? {};
         const zodInputProps = zodToHtmlInputProps(item);
         const isRequired =
-          zodInputProps.required ?? fieldConfigItem.inputProps?.required ?? false;
+          zodInputProps.required ??
+          fieldConfigItem.inputProps?.required ??
+          false;
 
         return (
           <FormField
@@ -536,13 +564,14 @@ function AutoFormObject<SchemaType extends z.ZodObject<any, any>>({
               const inputType =
                 fieldConfigItem.fieldType ??
                 DEFAULT_ZOD_HANDLERS[zodBaseType] ??
-                'fallback';
+                "fallback";
 
               const InputComponent =
-                typeof inputType === 'function'
+                typeof inputType === "function"
                   ? inputType
                   : INPUT_COMPONENTS[inputType];
-              const ParentElement = fieldConfigItem.renderParent ?? DefaultParent;
+              const ParentElement =
+                fieldConfigItem.renderParent ?? DefaultParent;
 
               return (
                 <ParentElement key={`${key}.parent`}>
@@ -558,7 +587,7 @@ function AutoFormObject<SchemaType extends z.ZodObject<any, any>>({
                       ...field,
                       ...fieldConfigItem.inputProps,
                       value: !fieldConfigItem.inputProps?.defaultValue
-                        ? field.value ?? ''
+                        ? field.value ?? ""
                         : undefined,
                     }}
                   />
@@ -594,7 +623,7 @@ function AutoFormArray({
       <AccordionTrigger>{title}</AccordionTrigger>
       <AccordionContent className="border-l p-3 pl-6">
         {fields.map((_field, index) => {
-          const key = [...path, index.toString()].join('.');
+          const key = [...path, index.toString()].join(".");
           return (
             <div className="mb-4 grid gap-6" key={`${key}`}>
               <AutoFormObject
@@ -628,7 +657,7 @@ function AutoFormArray({
 }
 
 export function AutoFormSubmit({ children }: { children?: React.ReactNode }) {
-  return <Button type="submit">{children ?? 'Submit'}</Button>;
+  return <Button type="submit">{children ?? "Submit"}</Button>;
 }
 
 // TODO: This should support recursive ZodEffects but TypeScript doesn't allow circular type definitions.
@@ -686,7 +715,7 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
             onParsedValuesChange?.(parsedValues.data);
           }
         }}
-        className={cn('space-y-5', className)}
+        className={cn("space-y-5", className)}
       >
         <AutoFormObject
           schema={objectFormSchema}

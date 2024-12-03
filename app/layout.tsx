@@ -15,7 +15,7 @@ const fontSans = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
 export const metadata: Metadata = {
   title: SiteConfig.title,
-  description: SiteConfig.description,
+  description: SiteConfig.description
 };
 
 export default function RootLayout({

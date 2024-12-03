@@ -1,18 +1,16 @@
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Loader } from '@/components/ui/loading';
-import { prisma } from '@/lib/prisma';
-import { Suspense } from 'react';
-import { LessonEditorAutoSave } from './LessonEditorAutoSave';
-import { LessonForm } from './LessonForm';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Loader } from "@/components/ui/loading";
+import { prisma } from "@/lib/prisma";
+import { Suspense } from "react";
+import { LessonEditorAutoSave } from "./LessonEditorAutoSave";
+import { LessonForm } from "./LessonForm";
 
-export default async function Page({
-  params,
-}: {
-  params: {
-    courseId: string;
-    lessonId: string;
-  };
-}) {
+import type { PageParams } from "@/types/next";
+
+export default async function Page(
+  props: PageParams<{ courseId: string; lessonId: string }>
+) {
+  const params = await props.params;
   const lesson = await prisma.lesson.findFirstOrThrow({
     where: {
       id: params.lessonId,
@@ -46,7 +44,10 @@ export default async function Page({
         </CardHeader>
         <CardContent>
           <Suspense fallback={<Loader />}>
-            <LessonEditorAutoSave markdown={lesson.content} lessonId={lesson.id} />
+            <LessonEditorAutoSave
+              markdown={lesson.content}
+              lessonId={lesson.id}
+            />
           </Suspense>
         </CardContent>
       </Card>

@@ -4,15 +4,15 @@ import {
   LayoutContent,
   LayoutHeader,
   LayoutTitle,
-} from '@/components/layout/layout';
-import { Button, buttonVariants } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+} from "@/components/layout/layout";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -20,12 +20,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { formatPrice } from '@/lib/formatPrice';
-import { getAuthSession } from '@/lib/next-auth';
-import { prisma } from '@/lib/prisma';
-import { Menu } from 'lucide-react';
-import Link from 'next/link';
+} from "@/components/ui/table";
+import { getAuthSession } from "@/lib/next-auth";
+import { prisma } from "@/lib/prisma";
+import { Menu } from "lucide-react";
+import Link from "next/link";
 
 export default async function page() {
   const session = await getAuthSession();
@@ -44,7 +43,7 @@ export default async function page() {
       <LayoutActions>
         <Link
           className={buttonVariants({
-            variant: 'secondary',
+            variant: "secondary",
           })}
           href="/admin/courses/new/edit"
         >
@@ -60,16 +59,16 @@ export default async function page() {
             <Table>
               <TableHeader>
                 <TableHead>Name</TableHead>
-                <TableHead>Price</TableHead>
                 <TableHead className="text-left">Actions</TableHead>
               </TableHeader>
               <TableBody>
                 {courses.map((course) => (
                   <TableRow key={course.id}>
                     <TableCell>
-                      <Link href={`/admin/courses/${course.id}`}>{course.name}</Link>
+                      <Link href={`/admin/courses/${course.id}`}>
+                        {course.name}
+                      </Link>
                     </TableCell>
-                    <TableCell>{formatPrice(course.price)}</TableCell>
                     <TableCell>
                       <DropdownMenu>
                         <DropdownMenuTrigger asChild>

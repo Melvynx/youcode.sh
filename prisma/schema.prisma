@@ -70,7 +70,6 @@ model Course {
   name         String
   presentation String // markdown
   image        String
-  price        Int // in cents
   createdAt    DateTime @default(now())
   creatorId    String
 
